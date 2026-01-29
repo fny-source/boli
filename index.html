@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>古风怨种女配上位记</title>
+
+<style>
+body{
+background:#0b1020;
+color:#eaeaff;
+font-family:system-ui;
+margin:0;
+padding:20px
+}
+
+.card{
+background:#141a3a;
+border-radius:16px;
+padding:16px;
+margin-bottom:16px;
+box-shadow:0 0 18px rgba(120,140,255,.2)
+}
+
+h2{color:#ff7acb}
+
+.btn{
+background:#2b3cff;
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:12px;
+margin:6px;
+cursor:pointer
+}
+
+.btn:hover{opacity:.85}
+
+.option{
+border:2px solid #444cff;
+padding:12px;
+border-radius:12px;
+margin:8px 0;
+cursor:pointer
+}
+.option.active{
+border-color:#ff7acb;
+box-shadow:0 0 10px #ff7acb
+}
+
+small{color:#aaa}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>📜 当前剧情 - Day <span id="day"></span></h2>
+<div id="story">加载中...</div>
+</div>
+
+<div class="card">
+<h2>🎯 行动选择</h2>
+<div id="actions"></div>
+
+<button class="btn" onclick="endTurn()">结束本回合</button>
+<button class="btn" onclick="aiContinue()">🤖 AI续写</button>
+<button class="btn" onclick="resetGame()">重开</button>
+</div>
+
+<div class="card">
+<h2>📊 状态</h2>
+<div id="stats"></div>
+</div>
+
+<script>
+const API_URL="https://api.gemai.cc/v1/chat/completions";
+const API_KEY="YOUR_API_KEY_HERE";
+
+let game={
+day:1,
+favor:0,
+danger:0,
+wisdom:0,
+health:10,
+story:"你作为怨种女配，被迫卷入东宫权斗。今日太子首次注意到你。"
+};
+
+let selected=null;
+
+const baseActions=[
+{txt:"稳住局面（示弱博同情）",f:{favor:+2,danger:-1}},
+{txt:"掀桌反击（高风险）",f:{favor:-1,danger:+3}},
+{txt:"暗中布局（谋略）",f:{wisdom:+2}},
+{txt:"养精蓄锐（恢复）",f:{health:+2,danger:-1}}
+];
+
+function save(){
+localStorage.setItem("game",JSON.stringify(game))
+}
+
+function load(){
+const d=localStorage.getItem("game");
+if(d) game=JSON.parse(d);
+}
+
+function render(){
+document.getElementById("day").innerText=game.day;
+document.getElementById("story").innerText=game.story;
+
+let actHTML="";
+selected=null;
+
+shuffle([...baseActions]).forEach((a,i)=>{
+actHTML+=`
+<div class="option" onclick="pick(${i},this)">
+<b>${a.txt}</b><br>
+<small>影响：${JSON.stringify(a.f)}</small>
+</div>`
+});
+document.getElementById("actions").innerHTML=actHTML;
+
+document.getElementById("stats").innerHTML=
+`好感:${game.favor} | 危险:${game.danger} | 心智:${game.wisdom} | 健康:${game.health}`;
+}
+
+function pick(i,el){
+document.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
+el.classList.add("active");
+selected=i;
+}
+
+function endTurn(){
+if(selected===null){
+alert("请选择行动");
+return;
+}
+const action=baseActions[selected];
+
+for(let k in action.f){
+game[k]+=action.f[k];
+}
+
+game.day++;
+
+game.story=generateStory();
+
+checkEnding();
+
+save();
+render();
+}
+
+function generateStory(){
+let pool=[
+"太子对你多看了一眼，似乎在衡量价值。",
+"宫中流言开始围绕你传播。",
+"贵女对你态度微妙变化。",
+"你隐约察觉有人在暗中针对。",
+"局势正在悄然倾斜。"
+];
+
+if(game.favor>5) pool.push("太子明显偏向你。");
+if(game.danger>5) pool.push("危机逼近，你已成眼中钉。");
+if(game.wisdom>5) pool.push("你布局渐成，暗线浮现。");
+
+return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function checkEnding(){
+if(game.health<=0){
+alert("你病倒退场，失败结局");
+resetGame();
+}
+if(game.danger>=10){
+alert("你被清算出局，黑化失败结局");
+resetGame();
+}
+if(game.favor>=10){
+alert("你登上高位，甜宠大结局！");
+resetGame();
+}
+}
+
+function resetGame(){
+localStorage.removeItem("game");
+game={
+day:1,favor:0,danger:0,wisdom:0,health:10,
+story:"你作为怨种女配，被迫卷入东宫权斗。今日太子首次注意到你。"
+};
+render();
+}
+
+function shuffle(arr){
+for(let i=arr.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[arr[i],arr[j]]=[arr[j],arr[i]];
+}
+return arr;
+}
+
+async function aiContinue(){
+const prompt=`你是古风权谋小说作者。
+当前天数:${game.day}
+状态:${JSON.stringify(game)}
+请继续剧情，体现权斗、情感、危机变化，不超过150字。`;
+
+try{
+const res=await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+API_KEY
+},
+body:JSON.stringify({
+model:"gpt-3.5-turbo",
+messages:[{role:"user",content:prompt}]
+})
+});
+
+const data=await res.json();
+
+game.story=data.choices[0].message.content;
+
+save();
+render();
+}catch(e){
+alert("AI请求失败："+e);
+}
+}
+
+load();
+render();
+</script>
+
+</body>
+</html>
