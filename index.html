@@ -196,7 +196,12 @@ h3{margin:0 0 10px; color:var(--accent); font-size:16px; letter-spacing:.4px;}
     <div class="hr"></div>
     <div id="options"></div>
     <div class="hr"></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <div style="<div style="display:flex;gap:10px;flex-wrap:wrap">
+  <button class="btn" id="btnCustom">✍️ 自定义行动</button>
+  <button class="btn" id="btnEnd">⏩ 结束本回合</button>
+  <button class="btn" id="btnAI">🤖 AI续写</button>
+  <button class="btn" id="btnKey">🔑 设置AI密钥</button>
+</div>
       <button class="btn" id="btnCustom">✍️ 自定义行动</button>
       <button class="btn" id="btnEnd">⏩ 结束本回合</button>
     </div>
@@ -295,7 +300,94 @@ function typeText(text){
     i++;
     if(i>=text.length) clearInterval(timer);
   }, 8);
+/* ===================== AI 接入（前端直连版） ===================== */
+/**
+ * ⚠️ 不要把 Key 写死在代码里（GitHub Pages 是公开的）
+ * 这里用 localStorage 保存用户手动输入的 Key（能跑，但仍有风险）
+ */
+const AI = {
+  enabled: true,
+  endpoint: "https://api.openai.com/v1/chat/completions",
+  model: "gpt-4.1-mini", // 你也可以换成别的
+  key: () => localStorage.getItem("OPENAI_API_KEY") || "",
+  setKey: (k) => localStorage.setItem("OPENAI_API_KEY", (k||"").trim()),
+};
+
+async function aiChat(prompt, systemPrompt){
+  const key = AI.key();
+  if(!key){
+    tip("先点「设置AI密钥」再用AI", "warn");
+    throw new Error("Missing API key");
+  }
+
+  const res = await fetch(AI.endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json",
+      "Authorization": `Bearer ${key}`
+    },
+    body: JSON.stringify({
+      model: AI.model,
+      temperature: 0.9,
+      messages: [
+        { role:"system", content: systemPrompt || "你是古风爽文互动小说的剧情引擎，擅长甜宠与权谋，文风古韵但节奏爽快。输出为中文。"},
+        { role:"user", content: prompt }
+      ]
+    })
+  });
+
+  if(!res.ok){
+    const txt = await res.text();
+    throw new Error("AI请求失败: " + txt);
+  }
+
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content?.trim() || "";
 }
+
+function buildAIPrompt(extraHint=""){
+  const P = State.player;
+  const dayPlot = Plot[State.day];
+
+  return `
+【游戏背景】
+你是《怨种女配掀桌录》的剧情AI。主角：柳扶风。核心冲突：与系统对抗、权谋斗争、太子慕容珩、苏清莲白莲反派线。
+
+【当前回合】
+第${State.day}日，主线：${dayPlot?.mainTask || "（暂无）"}
+
+【当前属性】
+风华:${P.风华}
+谋略:${P.谋略}
+心智:${P.心智}
+健康:${P.健康}
+掀桌值:${P.掀桌值}
+偏离度:${P.偏离度}
+贵女声望:${P.贵女声望}
+家族声望:${P.家族声望}
+系统警告值:${P["系统警告值"]}
+太子好感:${P["太子好感"]}
+苏清莲怀疑:${P["苏清莲怀疑"]}
+
+【续写要求】
+1) 续写一段“紧接上一段剧情”的文本（300~600字），要有画面感与情绪张力。
+2) 末尾给出 3 个可选行动（用 A/B/C 标号），每个行动一句话说明，分别偏向：甜宠、权谋、掀桌。
+3) 不要写任何HTML，不要写代码，只输出剧情纯文本+选项。
+${extraHint ? "【额外偏好】\n" + extraHint : ""}
+`;
+}
+
+async function aiContinue(extraHint=""){
+  try{
+    tip("AI生成中…", "warn");
+    const prompt = buildAIPrompt(extraHint);
+    const text = await aiChat(prompt);
+    typeText(text);
+  }catch(e){
+    tip(String(e.message || e), "bad");
+  }
+}
+/* ===================== AI 接入结束 ===================== */
 
 /* =========================
    1) 商城（沿用你之前）
@@ -1638,3 +1730,13 @@ $("btnCloseEnd").onclick = ()=> $("endMask").classList.remove("show");
 </script>
 </body>
 </html>
+// AI按钮：续写
+$("btnAI").onclick = () => aiContinue(""); // 默认风格
+// 设置密钥
+$("btnKey").onclick = () => {
+  const old = AI.key();
+  const k = prompt("粘贴你的 OpenAI API Key（不会上传到GitHub，只保存在你手机浏览器里）", old || "");
+  if(k === null) return;
+  AI.setKey(k);
+  tip(k.trim() ? "已保存AI密钥" : "已清空AI密钥", "good");
+};
