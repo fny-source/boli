@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>怨种女配掀桌录 · 终极完整版 Day1–Day20</title>
+<style>
+:root{
+  --bg:#0f1220;
+  --card:#1b1f3a;
+  --card2:#14182e;
+  --text:#eaeaff;
+  --muted:#b7b9ff;
+  --border:#3b3f7a;
+  --accent:#ff6aa2;
+  --good:#7cffb2;
+  --warn:#ffd36b;
+  --bad:#ff5b5b;
+  --glow:#ff6aa288;
+  --shadow:0 0 12px #0007;
+  --r:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background: radial-gradient(1200px 800px at 20% 0%, #1a1f44 0%, var(--bg) 55%, #0b0d18 100%);
+}
+.container{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  padding:12px;
+}
+.card{
+  background:linear-gradient(180deg,var(--card) 0%,var(--card2) 100%);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:14px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+h3{margin:0 0 10px; color:var(--accent); font-size:16px; letter-spacing:.4px;}
+.small{font-size:12px;color:var(--muted);line-height:1.55}
+.hr{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:10px 0;}
+@media(max-width:860px){.container{grid-template-columns:1fr;}}
+
+/* story */
+#story{height:300px;overflow:auto;line-height:1.78;font-size:14px;padding-right:6px;white-space:pre-wrap}
+#story::-webkit-scrollbar{width:8px}
+#story::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+
+/* options */
+.option{
+  background:#242a62;
+  border:1px solid #2f3578;
+  padding:10px;
+  margin:8px 0;
+  border-radius:10px;
+  cursor:pointer;
+  transition:.15s;
+  user-select:none;
+}
+.option:hover{transform:translateY(-1px); border-color:var(--accent); box-shadow:0 0 10px var(--glow);}
+.option.highlight{border-color:var(--accent); box-shadow:0 0 16px var(--glow);}
+.tag{
+  display:inline-block;
+  font-size:12px;
+  padding:2px 8px;
+  border-radius:999px;
+  margin-right:8px;
+  border:1px solid #ffffff22;
+  opacity:.95;
+}
+.tag-main{color:var(--accent);background:#ff6aa214;border-color:#ff6aa244;}
+.tag-safe{color:var(--good);background:#7cffb214;border-color:#7cffb255;}
+.tag-risk{color:var(--bad);background:#ff5b5b14;border-color:#ff5b5b66;}
+.tag-warn{color:var(--warn);background:#ffd36b14;border-color:#ffd36b66;}
+
+/* stats */
+.stat{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:13px;}
+.stat b{width:92px;color:#fff;font-weight:600}
+.bar{flex:1;height:8px;background:#00000033;border:1px solid #ffffff12;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#7cffb2,#ffd36b,#ff6aa2);width:50%}
+.val{width:46px;text-align:right}
+
+/* system */
+.sysRow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0;font-size:13px;}
+.badge{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid #ffffff22;}
+.badge-ok{color:var(--good);border-color:#7cffb266;background:#7cffb214;}
+.badge-warn{color:var(--warn);border-color:#ffd36b66;background:#ffd36b12;}
+.badge-bad{color:var(--bad);border-color:#ff5b5b66;background:#ff5b5b14;}
+
+.btn{
+  cursor:pointer;
+  border-radius:10px;
+  padding:8px 10px;
+  border:1px solid #ffffff22;
+  background:#20245a;
+  color:var(--text);
+  transition:.15s;
+  font-size:13px;
+}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent);box-shadow:0 0 10px var(--glow);}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* floating tip */
+.float{
+  position:fixed; right:14px; top:14px; z-index:9999;
+  padding:8px 10px; border-radius:10px;
+  border:1px solid #ffffff22; background:#12152aee; box-shadow:var(--shadow);
+  animation: floatUp 1.4s ease-out forwards; font-size:13px;
+  max-width:min(92vw, 360px);
+}
+.float.good{color:var(--good);border-color:#7cffb255}
+.float.bad{color:var(--bad);border-color:#ff5b5b66}
+.float.warn{color:var(--warn);border-color:#ffd36b66}
+@keyframes floatUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-40px)}}
+
+/* punishment animation */
+.flash{position:fixed;inset:0;background:radial-gradient(900px 400px at 50% 20%, #ff5b5b33, transparent 70%);opacity:0;pointer-events:none;z-index:9998;}
+.flash.on{animation:flash .55s ease-in-out;}
+@keyframes flash{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
+.shake{animation:shake .42s linear}
+@keyframes shake{0%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}100%{transform:translateX(0)}}
+
+/* modal */
+.mask{position:fixed;inset:0;background:#00000088;display:none;align-items:center;justify-content:center;z-index:10000;}
+.mask.show{display:flex}
+.modal{
+  width:min(860px, 92vw);
+  max-height:84vh;
+  overflow:auto;
+  background:linear-gradient(180deg,#1b1f3a 0%, #14182e 100%);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  padding:14px;
+}
+.modalTop{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+.item{border:1px solid #ffffff1a;background:#10132a66;border-radius:12px;padding:10px;}
+.item h4{margin:0 0 6px;color:#fff;font-size:14px;}
+.meta{display:flex;gap:8px;align-items:center;margin:6px 0;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.price{color:var(--accent);border:1px solid #ff6aa244;background:#ff6aa214;border-radius:999px;padding:2px 8px;}
+.desc{font-size:12px;line-height:1.55;color:#d7d9ff;}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+input,select,textarea{
+  width:100%; padding:8px 10px; border-radius:10px;
+  border:1px solid #ffffff22; background:#0f1220; color:var(--text);
+}
+textarea{min-height:88px;resize:vertical}
+
+/* portrait */
+.portraitWrap{display:flex;gap:10px;align-items:center}
+.portrait{
+  width:74px;height:74px;border-radius:16px;
+  border:1px solid #ffffff22; background:#0b0d18;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.portrait svg{width:84px;height:84px;opacity:.98}
+.pName{font-weight:800}
+.pHint{font-size:12px;color:var(--muted);line-height:1.4}
+.badgeMini{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid #ffffff22;color:var(--muted)}
+</style>
+</head>
+
+<body>
+<div class="flash" id="flash"></div>
+
+<div class="container">
+
+  <!-- Portrait / Achievements -->
+  <div class="card" id="cardPortrait">
+    <h3>🧍 立绘 / 关系</h3>
+    <div class="portraitWrap">
+      <div class="portrait" id="portrait"></div>
+      <div style="flex:1">
+        <div class="pName" id="pName">柳扶风</div>
+        <div class="pHint" id="pHint">你不当怨种，你掀桌。</div>
+        <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap" id="miniBadges"></div>
+      </div>
+      <button class="btn" id="btnPortrait">切换立绘</button>
+    </div>
+    <div class="hr"></div>
+    <div class="small" id="achvPreview">成就：0 / 12</div>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="btnAchv">🏆 成就列表</button>
+      <button class="btn" id="btnAI">🤖 AI续写</button>
+      <button class="btn" id="btnAIKey">🔑 设置AI密钥</button>
+    </div>
+  </div>
+
+  <div class="card" id="cardStory">
+    <h3>📜 当前剧情</h3>
+    <div class="small" id="subtitle"></div>
+    <div class="hr"></div>
+    <div id="story"></div>
+  </div>
+
+  <div class="card" id="cardAction">
+    <h3>🎯 行动面板</h3>
+    <div class="small">每回合选 1 项 → 进入结算 → 点【结束本回合】进入下一天。高亮=掀桌/高风险。</div>
+    <div class="hr"></div>
+    <div id="options"></div>
+    <div class="hr"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="btnCustom">✍️ 自定义行动</button>
+      <button class="btn" id="btnEnd">⏩ 结束本回合</button>
+      <button class="btn" id="btnSkip">⏭️ 直接到Day20结局</button>
+    </div>
+  </div>
+
+  <div class="card" id="cardStats">
+    <h3>📊 角色状态</h3>
+    <div class="small">警告值≥70惩罚更狠；健康≤15可能“病倒”强制休养；Day20自动结局判定。</div>
+    <div class="hr"></div>
+    <div id="stats"></div>
+  </div>
+
+  <div class="card" id="cardSystem">
+    <h3>⚙ 系统监控</h3>
+    <div id="system"></div>
+    <div class="hr"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="btnShop">🛒 系统商城</button>
+      <button class="btn" id="btnSave">💾 存档</button>
+      <button class="btn" id="btnLoad">📥 读档</button>
+      <button class="btn" id="btnReset">🧨 清档重开</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Shop Modal -->
+<div class="mask" id="shopMask">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <div style="font-weight:800;color:#fff">🛒 系统商城</div>
+        <div class="small">货币=掀桌值。买技能更容易“骗过系统”。</div>
+      </div>
+      <button class="btn" id="btnCloseShop">关闭</button>
+    </div>
+    <div class="hr"></div>
+    <div class="small" id="shopMoney"></div>
+    <div class="grid2" id="shopGrid"></div>
+  </div>
+</div>
+
+<!-- Achievements Modal -->
+<div class="mask" id="achvMask">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <div style="font-weight:800;color:#fff">🏆 成就系统</div>
+        <div class="small">满足条件会自动解锁（会弹提示）。</div>
+      </div>
+      <button class="btn" id="btnCloseAchv">关闭</button>
+    </div>
+    <div class="hr"></div>
+    <div id="achvList" class="grid2"></div>
+  </div>
+</div>
+
+<!-- AI Settings Modal -->
+<div class="mask" id="aiMask">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <div style="font-weight:800;color:#fff">🔑 AI设置</div>
+        <div class="small">把你的 API 地址 / Key / 模型填进去。只保存在本机 localStorage。</div>
+      </div>
+      <button class="btn" id="btnCloseAI">关闭</button>
+    </div>
+    <div class="hr"></div>
+    <div class="grid2">
+      <div class="item">
+        <h4>API Base URL</h4>
+        <div class="desc">示例：<span class="badgeMini">https://api.xxx.com/v1</span>（必须带 /v1）</div>
+        <div style="margin-top:8px"><input id="aiBase" placeholder="https://.../v1"></div>
+      </div>
+      <div class="item">
+        <h4>Model</h4>
+        <div class="desc">示例：gpt-4o-mini / gpt-4.1-mini / 你面板显示的模型名</div>
+        <div style="margin-top:8px"><input id="aiModel" placeholder="模型名"></div>
+      </div>
+      <div class="item">
+        <h4>API Key</h4>
+        <div class="desc">格式通常：sk-xxxxxxxx（不要发给任何人）</div>
+        <div style="margin-top:8px"><input id="aiKey" placeholder="sk-..."></div>
+      </div>
+      <div class="item">
+        <h4>超时 / 重试</h4>
+        <div class="desc">AI失败时会自动退回到“内置剧情续写”。</div>
+        <div style="margin-top:8px">
+          <select id="aiTemp">
+            <option value="0.6">温度 0.6（稳）</option>
+            <option value="0.9">温度 0.9（更放飞）</option>
+            <option value="1.1">温度 1.1（更戏剧）</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="btnSaveAI">保存设置</button>
+      <button class="btn" id="btnTestAI">测试连接</button>
+      <button class="btn" id="btnClearAI">清空设置</button>
+    </div>
+    <div class="hr"></div>
+    <div class="small" id="aiStatus">状态：未测试</div>
+  </div>
+</div>
+
+<!-- Custom Action Modal -->
+<div class="mask" id="customMask">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <div style="font-weight:800;color:#fff">✍️ 自定义行动</div>
+        <div class="small">你写一句行动，我会按“掀桌/主线/谋略/养成”自动判定并结算。</div>
+      </div>
+      <button class="btn" id="btnCloseCustom">关闭</button>
+    </div>
+    <div class="hr"></div>
+    <textarea id="customText" placeholder="比如：我去东宫当众揭穿苏清莲的账本，顺便逼太子表态。"></textarea>
+    <div class="hr"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="btnDoCustom">执行</button>
+      <button class="btn" id="btnDoCustomAI">用AI扩写并执行</button>
+    </div>
+    <div class="small" style="margin-top:10px">提示：如果你想“甜宠路线”，多选【主线/体面推进】并累积太子好感；如果“权谋黑化”，多选【证据推进/掀桌】并堆谋略与怀疑值。</div>
+  </div>
+</div>
+
+<script>
+/* ===================== 立绘（内置SVG，不需要外链） ===================== */
+const Portraits = {
+  heroine: [
+    {name:"柳扶风 · 冷艳", svg: svgFace("#ff6aa2","#0f1220","#eaeaff","冷") },
+    {name:"柳扶风 · 乖巧", svg: svgFace("#7cffb2","#0f1220","#eaeaff","乖") },
+    {name:"柳扶风 · 黑化", svg: svgFace("#ff5b5b","#0f1220","#eaeaff","狠") },
+  ],
+  prince: [
+    {name:"慕容珩 · 太子", svg: svgFace("#ffd36b","#0f1220","#eaeaff","珩") },
+  ],
+  su: [
+    {name:"苏清莲 · 白莲", svg: svgFace("#b7b9ff","#0f1220","#eaeaff","莲") },
+  ]
+};
+function svgFace(accent, bg, fg, mark){
+return `
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${accent}" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="${accent}" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="88" height="88" rx="18" fill="${bg}" stroke="${accent}" stroke-opacity="0.45"/>
+  <circle cx="50" cy="50" r="30" fill="url(#g)" opacity="0.9"/>
+  <circle cx="40" cy="46" r="4" fill="${fg}" opacity="0.9"/>
+  <circle cx="60" cy="46" r="4" fill="${fg}" opacity="0.9"/>
+  <path d="M38 62 C45 70, 55 70, 62 62" stroke="${fg}" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <text x="50" y="54" text-anchor="middle" font-size="18" fill="${fg}" opacity="0.35" font-weight="800">${mark}</text>
+</svg>`;
+}
+
+/* ===================== 商城 ===================== */
+const Shop = [
+  {id:"shield", name:"屏蔽符", price:10, desc:"下一次免系统惩罚（一次性）。", apply:s=>s.buffs.noPunishOnce=true},
+  {id:"actor", name:"演技大师", price:40, desc:"被动：降低惩罚触发概率（更容易骗过系统）。", apply:s=>s.buffs.actor=true},
+  {id:"iron", name:"铁血心防", price:30, desc:"被动：惩罚对心智/健康的伤害-1。", apply:s=>s.buffs.iron=true},
+  {id:"intel", name:"情报线人", price:25, desc:"一次性：下一回合谋略+3（自动触发）。", apply:s=>{s.buffs.nextIntelBoost=true}},
+  {id:"lux", name:"玲珑人脉", price:35, desc:"被动：社交选项额外+2声望。", apply:s=>s.buffs.lux=true},
+  {id:"med", name:"回春丸", price:18, desc:"一次性：健康+10、心智+6。", apply:s=>{s.player.健康=clamp(s.player.健康+10,0,100); s.player.心智=clamp(s.player.心智+6,0,100);}},
+];
+
+/* ===================== 成就系统 ===================== */
+const Achievements = [
+  {id:"firstFlip", name:"第一次掀桌", desc:"掀桌值首次达到 ≥6", check:s=>s.player.掀桌值>=6},
+  {id:"flipKing", name:"掀桌王", desc:"掀桌值达到 60", check:s=>s.player.掀桌值>=60},
+  {id:"calmMind", name:"心如止水", desc:"心智达到 90", check:s=>s.player.心智>=90},
+  {id:"ironBody", name:"铁人", desc:"健康达到 95", check:s=>s.player.健康>=95},
+  {id:"plotMaster", name:"体面推进", desc:"主线完成累计 8 次", check:s=>s.meta.mainDoneCount>=8},
+  {id:"evidence", name:"证据链", desc:"苏清莲怀疑 ≥70", check:s=>s.player["苏清莲怀疑"]>=70},
+  {id:"princeLove", name:"太子心动", desc:"太子好感 ≥70", check:s=>s.player["太子好感"]>=70},
+  {id:"warning", name:"系统怒火", desc:"系统警告值 ≥80", check:s=>s.player["系统警告值"]>=80},
+  {id:"reputation", name:"贵女传说", desc:"贵女声望 ≥95", check:s=>s.player["贵女声望"]>=95},
+  {id:"strategist", name:"权谋家", desc:"谋略 ≥90", check:s=>s.player.谋略>=90},
+  {id:"survivor", name:"苟住就是赢", desc:"健康曾低于15但你活到Day10", check:s=>s.meta.lowHPOnce && s.day>=10},
+  {id:"ending", name:"见证结局", desc:"完成任意结局", check:s=>s.meta.ended===true},
+];
+
+/* ===================== 引擎状态 ===================== */
+const State = {
+  day: 1,
+  phase: "CHOOSE",
+  focus: "heroine",         // 当前立绘角色：heroine/prince/su
+  portraitIndex: 0,
+  route: "UNSET",           // SWEET / DARK / BALANCE
+  player: {
+    风华: 92,
+    谋略: 78,
+    心智: 74,
+    健康: 88,
+    掀桌值: 0,
+    偏离度: 0,
+    贵女声望: 85,
+    家族声望: 95,
+    系统警告值: 0,
+    "太子好感": 0,
+    "苏清莲怀疑": 0,
+  },
+  buffs: {
+    noPunishOnce:false,
+    actor:false,
+    iron:false,
+    nextIntelBoost:false,
+    lux:false,
+  },
+  flags: {
+    mainDone:false
+  },
+  meta:{
+    mainDoneCount:0,
+    lowHPOnce:false,
+    ended:false,
+  },
+  achvUnlocked:{},
+  log: []
+};
+
+/* ===================== Day1–Day20 主线剧情库（含分支文本） ===================== */
+function dayIntro(day){
+  const T = {
+    1:`你猛地睁开眼。\n绣帐低垂，檀香幽幽。\n你穿进虐文，成了注定惨死的女配：柳扶风。\n\n【主线任务：午后前往东宫，为太子送参汤。】\n你指尖发白：\n“这一世——我不当怨种。”`,
+    2:`第二日，城里风声变冷。\n系统换了招：不再逼你送死，而是逼你“像女配”。\n你望向街巷：每一条巷子都藏着耳朵。`,
+    3:`第三日，东宫口谕：太子召见。\n系统低声提醒你“保持人设一致”。\n你心想：我最讨厌被安排。`,
+    4:`第四日，丞相府后院的账册开始露角。\n你若想翻盘，证据要像网：越织越密。`,
+    5:`第五日，苏清莲主动递帖。\n字字温柔，句句带刺。\n你若接，她有戏；你若不接，她也有戏。`,
+    6:`第六日，宫宴将开。\n这是“女配社死”的传统舞台。\n而你准备把舞台掀翻。`,
+    7:`第七日，太子第一次在暗处给你递来“刀”。\n你接不接？\n接了，可能并肩；不接，可能更自由。`,
+    8:`第八日，证据链到手一半。\n你需要一个“公开爆点”。\n否则别人只当你疯。`,
+    9:`第九日，苏清莲的帮手露面：礼部与内侍勾连。\n你闻到权力的腥味。`,
+    10:`第十日，系统投放强惩罚预警。\n你越不乖，它越狠。\n你越狠，它越怕。`,
+    11:`第十一日，太子对你改口：不再叫“柳姑娘”，叫“扶风”。\n这两个字像火，烧得你手心发烫。`,
+    12:`第十二日，丞相府有人要灭口。\n你若退一步，就会被推下去。\n你若进半步，就要踩着血上来。`,
+    13:`第十三日，朝堂风起：将军府被牵连的传闻四散。\n你要护家，还是借势？`,
+    14:`第十四日，太子提出“交易”。\n你要甜？要权？还是要两者都要？`,
+    15:`第十五日，苏清莲开始反扑：她要把你钉死在“妖女”名声上。\n你必须反手一刀。`,
+    16:`第十六日，你手握证据，但缺一个“审判席”的位置。\n你要进宫门，得拿到钥匙。`,
+    17:`第十七日，宫里传来密诏：要查丞相。\n你终于站在风暴中心。`,
+    18:`第十八日，最终对决前夜。\n你可以选择“温柔地赢”，也可以选择“残忍地赢”。`,
+    19:`第十九日，朝堂公审。\n你一开口，能救人，也能杀人。`,
+    20:`第二十日，结局之门打开。\n系统沉默。\n你也沉默。\n——因为你终于拥有了“写下结局”的权力。`,
+  };
+  return T[day] || `第${day}日。`;
+}
+
+function dayTitle(day){return `第${day}日 · ${[
+"将军府","城中暗流","东宫回声","证据织网","白莲邀局",
+"宫宴舞台","暗刀同盟","爆点成形","礼部黑线","系统加压",
+"心动与试探","灭口之夜","护家与借势","交易条件","反扑与反杀",
+"宫门钥匙","密诏风暴","对决前夜","朝堂公审","终局判定"
+][day-1]||"新章"}`}
+
+function mainTask(day){
+  return [
+"送汤入东宫（稳住系统）",
+"稳口碑/取证据（建立棋盘）",
+"与太子正面交锋（关系定调）",
+"补全证据链（抓住尾巴）",
+"应对苏清莲邀局（不入陷阱）",
+"宫宴亮相（名声战）",
+"拿到太子的“暗刀”许可",
+"制造公开爆点（翻盘证据）",
+"锁定礼部黑线（官场证据）",
+"扛住系统加压（不崩）",
+"推进太子关系或划清界限",
+"阻止灭口（保人证）",
+"护将军府声望（保根）",
+"接受/拒绝交易（路线选择）",
+"反杀舆论（重塑口碑）",
+"夺宫门钥匙（掌控审判席）",
+"配合密诏（上台面）",
+"最终筹码（定赢法）",
+"公审一击（定生死）",
+"结局判定（多结局）"
+][day-1] || "继续推进";
+}
+
+/* 统一四类行动（每一天都会变文本 + 细微数值差） */
+function buildOptions(day, S){
+  const P = S.player;
+  const warn = P["系统警告值"];
+  const highWarn = warn >= 70;
+
+  // 路线倾向
+  const sweetBias = P["太子好感"] - P["苏清莲怀疑"];
+  const darkBias  = P["苏清莲怀疑"] + P["掀桌值"] - P["太子好感"];
+  if(S.route==="UNSET"){
+    if(sweetBias>=25) S.route="SWEET";
+    else if(darkBias>=35) S.route="DARK";
+    else S.route="BALANCE";
+  }
+
+  const baseMain = {
+    id:`D${day}-main`,
+    tag:["主线","低风险"],
+    actionKey:"MAIN",
+    effect:{ "太子好感": +2, "偏离度": -1, "系统警告值": -2, "贵女声望": +1 },
+    story:
+`【体面推进】\n你按主线要求完成关键动作：${mainTask(day)}。\n你不卑不亢，把“女配人设”穿得滴水不漏。\n系统短暂安静。\n你心里却更清醒：体面是伪装，胜利才是目的。`,
+    focus: (day%3===0)?"prince":"heroine"
+  };
+
+  const baseFlip = {
+    id:`D${day}-flip`,
+    tag:["掀桌","高风险"],
+    highlight:true,
+    actionKey:"FLIP",
+    effect:{ "掀桌值": +6, "偏离度": +3, "系统警告值": +6, "心智": -1, "贵女声望": -1 },
+    story:
+`【掀桌开杀】\n你把规矩当纸。\n你把脸面当灰。\n你当众做出“原著不允许”的选择——并且笑着站在风口上。\n系统尖鸣。\n你却听见自己心跳：兴奋胜过恐惧。`,
+    focus:"heroine"
+  };
+
+  const baseProof = {
+    id:`D${day}-proof`,
+    tag:["谋略","中风险"],
+    actionKey:"PROOF",
+    effect:{ "谋略": +3, "偏离度": +1, "苏清莲怀疑": +4, "贵女声望": +1 },
+    story:
+`【证据推进】\n你不急着吵。\n你把每一次呼吸都用来织网：线索、账册、证人、动机。\n苏清莲的“无心之失”开始变得像一场预谋。\n你离“翻盘”更近了一步。`,
+    focus: (day%2===0)?"su":"heroine"
+  };
+
+  const baseRest = {
+    id:`D${day}-rest`,
+    tag:["养成","低风险"],
+    actionKey:"REST",
+    effect:{ "心智": +4, "健康": +4, "偏离度": 0, "系统警告值": -1 },
+    story:
+`【闭门修整】\n你让自己先活下去。\n你喝药、练字、抄兵书、稳住呼吸。\n系统很不爽，但它也没法让一个“病人”立刻去死。\n你更硬了。`,
+    focus:"heroine"
+  };
+
+  // 每日剧情“变化句”，让每一天读起来不重复
+  const spice = [
+    "",
+    "街巷里有人在念你的名字。",
+    "东宫的灯火像审判。",
+    "账册边角沾着墨与血。",
+    "白莲笑里藏钩。",
+    "宫宴的扇影像刀。",
+    "太子递刀时眼神很淡。",
+    "你只差一个爆点。",
+    "礼部的门后是脏手。",
+    "系统开始失控地修正。",
+    "他喊你扶风那一刻，你差点走神。",
+    "巷口的脚步声更近了。",
+    "将军府的门匾被人盯上。",
+    "交易像吻，也像枷锁。",
+    "反扑的谣言像潮。",
+    "宫门钥匙冰冷。",
+    "密诏像雷。",
+    "夜风里全是筹码味。",
+    "公审席上每个人都在赌。",
+    "终局里，只有你能落笔。"
+  ][day-1] || "";
+
+  // 强惩罚提示/危机选项（当警告高）
+  const crisis = highWarn ? [{
+    id:`D${day}-crisis`,
+    tag:["危机","中风险"],
+    actionKey:"CRISIS",
+    effect:{ "心智": -2, "系统警告值": +2, "谋略": +1 },
+    story:
+`【系统危机投放】\n${spice}\n系统强行塞来一段“修正事件”。\n你必须当场处理：要么忍，要么更狠。\n你咬住舌尖：我不会回到原著。`,
+    focus:"heroine"
+  }] : [];
+
+  // 给四个动作加上当日特写句
+  const patch = op => ({...op, story: op.story + (spice?`\n\n（今日暗流：${spice}）`:"")});
+  return [patch(baseMain), patch(baseFlip), patch(baseProof), patch(baseRest), ...crisis];
+}
+
+/* ===================== DOM ===================== */
+const $ = id => document.getElementById(id);
+const storyBox = $("story");
+const subtitle = $("subtitle");
+const optionBox = $("options");
+const statBox = $("stats");
+const systemBox = $("system");
+const flash = $("flash");
+const cards = [$("cardPortrait"),$("cardStory"),$("cardAction"),$("cardStats"),$("cardSystem")];
+
+const shopMask = $("shopMask");
+const shopGrid = $("shopGrid");
+const shopMoney = $("shopMoney");
+
+const achvMask = $("achvMask");
+const achvList = $("achvList");
+
+const aiMask = $("aiMask");
+const aiStatus = $("aiStatus");
+
+const customMask = $("customMask");
+
+/* ===================== util ===================== */
+const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+function tip(text, kind="good"){
+  const d=document.createElement("div");
+  d.className=`float ${kind}`;
+  d.innerText=text;
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1400);
+}
+function typeText(text){
+  storyBox.innerText="";
+  let i=0;
+  const timer=setInterval(()=>{
+    storyBox.innerText += (text[i] ?? "");
+    storyBox.scrollTop = storyBox.scrollHeight;
+    i++;
+    if(i>=text.length) clearInterval(timer);
+  }, 9);
+}
+function nowBadges(){
+  const P=State.player;
+  const tags=[];
+  if(State.route==="SWEET") tags.push("甜宠倾向");
+  if(State.route==="DARK") tags.push("黑化倾向");
+  if(P["系统警告值"]>=70) tags.push("系统高危");
+  if(P["太子好感"]>=70) tags.push("太子心动");
+  if(P["苏清莲怀疑"]>=70) tags.push("白莲将爆");
+  return tags;
+}
+
+/* ===================== 渲染 ===================== */
+function renderSubtitle(){
+  subtitle.innerHTML = `「${dayTitle(State.day)}」 <span class="small">（Day20自动结局｜主线更稳｜掀桌赚货币）</span>`;
+}
+function renderPortrait(){
+  const focus = State.focus;
+  const list = Portraits[focus] || Portraits.heroine;
+  State.portraitIndex = clamp(State.portraitIndex,0,list.length-1);
+  const cur = list[State.portraitIndex];
+  $("portrait").innerHTML = cur.svg;
+  $("pName").innerText = cur.name || "角色";
+  $("pHint").innerText = focus==="heroine" ? "你可以乖，但你更会赢。" :
+                         focus==="prince" ? "他不说情话，但他会给你刀。" :
+                         "她笑得最软，刀也最狠。";
+
+  const badges = $("miniBadges");
+  badges.innerHTML = "";
+  nowBadges().forEach(t=>{
+    const s=document.createElement("span");
+    s.className="badgeMini";
+    s.innerText=t;
+    badges.appendChild(s);
+  });
+  renderAchvPreview();
+}
+function renderStats(){
+  statBox.innerHTML="";
+  const P = State.player;
+  const rows = [
+    ["风华", P.风华], ["谋略", P.谋略], ["心智", P.心智], ["健康", P.健康],
+    ["掀桌值", P.掀桌值], ["偏离度", P.偏离度], ["贵女声望", P.贵女声望],
+    ["家族声望", P.家族声望], ["系统警告值", P.系统警告值],
+    ["太子好感", P["太子好感"]], ["苏清莲怀疑", P["苏清莲怀疑"]],
+  ];
+  rows.forEach(([k,v])=>{
+    const pct = clamp(v,0,100);
+    const el=document.createElement("div");
+    el.className="stat";
+    el.innerHTML = `<b>${k}</b><div class="bar"><div class="fill" style="width:${pct}%"></div></div><span class="val">${v}</span>`;
+    statBox.appendChild(el);
+  });
+}
+function renderSystem(extra=""){
+  const P = State.player;
+  const warn=P["系统警告值"];
+  let badge=`<span class="badge badge-ok">监控正常</span>`;
+  if(warn>=70) badge=`<span class="badge badge-bad">高危</span>`;
+  else if(warn>=35) badge=`<span class="badge badge-warn">警惕</span>`;
+
+  const done = State.flags.mainDone ? "✅已完成" : "❌未完成";
+  systemBox.innerHTML = `
+    <div class="sysRow"><span>📅 回合</span><b>Day ${State.day} / 20</b></div>
+    <div class="sysRow"><span>🎯 今日主线</span><span>${done}</span></div>
+    <div class="small">${mainTask(State.day)}</div>
+    <div class="hr"></div>
+    <div class="sysRow"><span>👁 警告等级</span>${badge}</div>
+    <div class="small">${extra || "系统正在分析你的“人设一致性”…"}</div>
+  `;
+}
+function renderOptions(){
+  optionBox.innerHTML="";
+  const ops = buildOptions(State.day, State);
+
+  ops.forEach(op=>{
+    const div=document.createElement("div");
+    div.className="option";
+    if(op.highlight) div.classList.add("highlight");
+
+    const tag1 = op.tag?.[0] || "行动";
+    const tag2 = op.tag?.[1] || "未知";
+    const cls1 = tag1==="主线" ? "tag-main" : (tag1==="掀桌" ? "tag-risk" : (tag1==="危机" ? "tag-warn" : "tag-safe"));
+    const cls2 = tag2.includes("高") ? "tag-risk" : (tag2.includes("中") ? "tag-warn" : "tag-safe");
+
+    const shortTitle = (tag1==="主线") ? "稳住局面（主线/体面推进）" :
+                       (tag1==="掀桌") ? "掀桌开杀（高风险高收益）" :
+                       (tag1==="谋略") ? "证据推进（谋略线）" :
+                       (tag1==="养成") ? "闭门修整（回血稳心）" :
+                       "处理危机（系统投放）";
+
+    // 预览效果
+    const eff = Object.entries(op.effect||{})
+      .map(([k,v])=> `${k}${v>=0?"+":""}${v}`)
+      .slice(0,5).join(" · ");
+
+    div.innerHTML = `
+      <span class="tag ${cls1}">${tag1}</span>
+      <span class="tag ${cls2}">${tag2}</span>
+      <div style="margin-top:6px;font-weight:700">${shortTitle}</div>
+      <div class="small" style="margin-top:6px">${eff || ""}</div>
+    `;
+    div.onclick = ()=>applyAction(op);
+    optionBox.appendChild(div);
+  });
+}
+function renderShop(){
+  shopMoney.innerHTML = `当前掀桌值：<b style="color:var(--accent)">${State.player.掀桌值}</b> ｜被动已拥有：${
+    Object.entries(State.buffs).filter(([k,v])=>v && (k==="actor"||k==="iron"||k==="lux")).map(([k])=>k).join(", ") || "无"
+  }`;
+  shopGrid.innerHTML="";
+  Shop.forEach(item=>{
+    const can = State.player.掀桌值 >= item.price;
+    const el=document.createElement("div");
+    el.className="item";
+    el.innerHTML = `
+      <h4>${item.name}</h4>
+      <div class="meta"><span class="price">-${item.price} 掀桌值</span><span>${can ? "可购买" : "余额不足"}</span></div>
+      <div class="desc">${item.desc}</div>
+      <div class="row">
+        <button class="btn" ${can ? "" : "disabled"}>购买并使用</button>
+        <span class="small">ID: ${item.id}</span>
+      </div>
+    `;
+    el.querySelector("button").onclick = ()=>purchase(item.id);
+    shopGrid.appendChild(el);
+  });
+}
+function renderAchvPreview(){
+  const total = Achievements.length;
+  const got = Object.keys(State.achvUnlocked).length;
+  $("achvPreview").innerText = `成就：${got} / ${total}`;
+}
+function renderAchvList(){
+  achvList.innerHTML="";
+  Achievements.forEach(a=>{
+    const got = !!State.achvUnlocked[a.id];
+    const el=document.createElement("div");
+    el.className="item";
+    el.innerHTML = `
+      <h4>${got ? "✅ " : "⬜ "} ${a.name}</h4>
+      <div class="desc">${a.desc}</div>
+      <div class="meta"><span class="badgeMini">${got ? "已解锁" : "未解锁"}</span><span class="badgeMini">ID: ${a.id}</span></div>
+    `;
+    achvList.appendChild(el);
+  });
+}
+
+/* ===================== 核心逻辑 ===================== */
+function applyDelta(delta){
+  Object.entries(delta).forEach(([k,v])=>{
+    if(!(k in State.player)) return;
+    const before=State.player[k];
+    State.player[k]=clamp(before+v,0,100);
+    const sign=v>0?"+":"";
+    if(v!==0) tip(`${k} ${sign}${v}`, v>0 ? "good" : "bad");
+  });
+
+  if(State.player.健康<=15) State.meta.lowHPOnce=true;
+  checkAchievements();
+}
+function punish(level=1, reason="偏离主线"){
+  if(State.buffs.noPunishOnce){
+    State.buffs.noPunishOnce=false;
+    tip("屏蔽符生效：免一次惩罚", "warn");
+    renderSystem("【屏蔽符】已消耗：系统短暂失明。");
+    return;
+  }
+
+  flash.classList.add("on");
+  cards.forEach(c=>c.classList.add("shake"));
+  setTimeout(()=>{
+    flash.classList.remove("on");
+    cards.forEach(c=>c.classList.remove("shake"));
+  }, 520);
+
+  // 演技大师：一定概率跳过惩罚
+  if(State.buffs.actor){
+    const skip = Math.random() < 0.35;
+    if(skip){
+      tip("演技大师：你骗过系统一次", "warn");
+      return;
+    }
+  }
+
+  let base = level===1 ? 3 : level===2 ? 7 : 12;
+  if(State.buffs.iron) base = Math.max(1, base-1);
+
+  const dMind = -base;
+  const dHp = -Math.max(1, Math.floor(base/2));
+  const dWarn = +(level===1 ? 10 : level===2 ? 20 : 33);
+
+  applyDelta({心智:dMind, 健康:dHp, "系统警告值":dWarn});
+  tip(`系统惩罚：${reason}`, "bad");
+}
+
+function applyAction(op){
+  if(State.phase!=="CHOOSE") return;
+  State.phase="RESOLVE";
+  State.flags.mainDone = (op.actionKey==="MAIN");
+
+  // 一次性buff：情报线人
+  if(State.buffs.nextIntelBoost){
+    State.buffs.nextIntelBoost=false;
+    applyDelta({谋略:+3});
+    tip("情报线人：谋略加成触发", "warn");
+  }
+
+  // 人脉：社交（这里用“主线”当社交的稳定推进）额外加成
+  const extra = {};
+  if(State.buffs.lux && op.actionKey==="MAIN"){
+    extra["贵女声望"] = (extra["贵女声望"]||0) + 2;
+  }
+
+  // 立绘焦点
+  if(op.focus) State.focus = op.focus;
+  if(op.actionKey==="PROOF") State.focus="su";
+  if(op.actionKey==="MAIN" && (State.day%3===0)) State.focus="prince";
+
+  typeText(op.story);
+
+  // 应用数值
+  applyDelta({...op.effect, ...extra});
+
+  // 路线倾向更明显
+  if(op.actionKey==="MAIN") State.meta.mainDoneCount++;
+  if(op.actionKey==="FLIP") State.route = (State.route==="SWEET") ? "BALANCE" : (State.route==="BALANCE" ? "DARK" : State.route);
+  if(op.actionKey==="PROOF" && State.player["苏清莲怀疑"]>55) State.route = (State.route==="SWEET") ? "BALANCE" : State.route;
+
+  // 主线未完成 => 惩罚（警告越高越狠）
+  if(!State.flags.mainDone){
+    const warn = State.player["系统警告值"];
+    const lvl = warn>=85 ? 3 : (warn>=70 ? 2 : 1);
+    punish(lvl, "未完成主线/偏离修正");
+  }else{
+    // 完成主线：略微降低警告
+    applyDelta({"系统警告值": -2});
+  }
+
+  // 健康过低：强制休养（仍算完成当天结算）
+  if(State.player.健康<=15){
+    tip("你病倒了：强制休养（下一天前）", "bad");
+    applyDelta({健康:+6, 心智:+4, "系统警告值": -1});
+  }
+
+  renderStats();
+  renderSystem("结算完成。点【结束本回合】进入下一天。");
+  renderPortrait();
+
+  // 锁住本回合再次选择
+  setButtonsEnabled(false);
+  $("btnEnd").disabled = false;
+}
+
+function setButtonsEnabled(enabled){
+  // 只影响行动区域按钮（避免存档等被禁用）
+  const btns = [$("btnCustom"), $("btnAI"), $("btnShop"), $("btnEnd")];
+  btns.forEach(b=>{ if(b) b.disabled = !enabled; });
+}
+
+function nextDay(){
+  if(State.phase!=="RESOLVE"){
+    tip("先选一个行动再结束回合", "warn");
+    return;
+  }
+  State.day++;
+  State.phase="CHOOSE";
+  State.flags.mainDone=false;
+
+  if(State.day>20){
+    showEnding();
+    return;
+  }
+
+  typeText(dayIntro(State.day));
+  renderAll("进入下一天。");
+  setButtonsEnabled(true);
+}
+function skipToEnding(){
+  State.day = 20;
+  State.phase = "CHOOSE";
+  State.flags.mainDone=false;
+  typeText(dayIntro(State.day));
+  renderAll("已跳转到 Day20。");
+  setButtonsEnabled(true);
+}
+
+function checkAchievements(){
+  let unlockedNow = [];
+  Achievements.forEach(a=>{
+    if(State.achvUnlocked[a.id]) return;
+    try{
+      if(a.check(State)){
+        State.achvUnlocked[a.id]=true;
+        unlockedNow.push(a.name);
+      }
+    }catch(e){}
+  });
+  if(unlockedNow.length){
+    tip("成就解锁： " + unlockedNow.join("、"), "good");
+  }
+  renderAchvPreview();
+}
+
+function showEnding(){
+  // 结局判定：甜宠 / 权谋黑化 / 平衡 / BE / HE
+  const P=State.player;
+
+  // 关键阈值
+  const love = P["太子好感"];
+  const proof = P["苏清莲怀疑"];
+  const power = P.谋略 + P["家族声望"];
+  const flip = P["掀桌值"];
+  const warn = P["系统警告值"];
+  const hp = P.健康;
+
+  let ending = {name:"未知结局", text:"", kind:"warn", focus:"heroine"};
+
+  // BE（高警告/低健康）
+  if(hp<=12 || warn>=92){
+    ending = {
+      name:"Bad End：系统修正",
+      kind:"bad",
+      focus:"heroine",
+      text:
+`【Bad End：系统修正】\n系统终于抓住你。\n它把你按回原著：病倒、失势、被推到风口。\n你明白：不是你不够狠，而是你狠得还不够早。\n\n（提示：更稳地完成主线、同时推进证据链；或早早攒掀桌值去商城买“演技/心防”。）`
+    };
+  }else if(love>=75 && proof>=60 && power>=160){
+    ending = {
+      name:"True End：并肩掌局（甜宠+权谋）",
+      kind:"good",
+      focus:"prince",
+      text:
+`【True End：并肩掌局】\n朝堂公审那日，你把证据一条条摊开。\n苏清莲的“无心之失”被钉成铁案。\n太子在你身侧，声音很淡，却句句护你：\n“她不是棋子。”\n\n夜里，他把你的指尖握进掌心：\n“扶风，孤要的是你——不是你的乖。”\n你笑：\n“殿下，我要的是天下——顺便要你。”`
+    };
+  }else if(love>=75 && proof<55){
+    ending = {
+      name:"Sweet End：太子独宠",
+      kind:"good",
+      focus:"prince",
+      text:
+`【Sweet End：太子独宠】\n你没把苏清莲逼到死局。\n你选择体面地赢、温柔地走。\n太子为你挡下所有流言，把你护进东宫最深处。\n\n他低声说：\n“从今往后，你不必掀桌。\n你想掀——我替你掀。”`
+    };
+  }else if(proof>=75 && (flip>=40 || power>=170)){
+    ending = {
+      name:"Dark End：权谋黑化上位",
+      kind:"warn",
+      focus:"heroine",
+      text:
+`【Dark End：权谋黑化】\n你把证据当刀，把名声当盔。\n苏清莲倒下那一刻，城里所有人都噤声。\n你站在高处，发现自己已经不再需要“被爱”。\n\n太子看你很久：\n“你变了。”\n你笑：\n“殿下，是我终于像‘赢家’了。”`
+    };
+  }else if(power>=170){
+    ending = {
+      name:"Balance End：将军府女主人",
+      kind:"good",
+      focus:"heroine",
+      text:
+`【Balance End：将军府女主人】\n你没有把自己押在任何人身上。\n你护住将军府，收拢人脉，稳住朝局。\n你成了“所有人都不敢轻视”的那个人。\n\n爱情？\n你也可以要。\n但你更清楚：你先要自己。`
+    };
+  }else{
+    ending = {
+      name:"Normal End：改写命运，仍需努力",
+      kind:"warn",
+      focus:"heroine",
+      text:
+`【Normal End】\n你活过了原著。\n你躲开了最狠的刀。\n但你也知道：你还没把权力握在手里。\n\n（提示：提高谋略、累积怀疑值或太子好感，Day1–Day20多做“证据推进/体面推进”。）`
+    };
+  }
+
+  State.meta.ended=true;
+  checkAchievements();
+
+  State.focus = ending.focus;
+  typeText(ending.text);
+  renderPortrait();
+  renderSystem(`结局：${ending.name}`);
+  $("options").innerHTML = `<div class="small">✅ 结局已判定：<b>${ending.name}</b><br>你可以【读档】或【清档重开】尝试不同路线。</div>`;
+  $("btnEnd").disabled = true;
+  $("btnCustom").disabled = true;
+  $("btnAI").disabled = true;
+}
+
+/* ===================== 商城购买 ===================== */
+function purchase(id){
+  const item = Shop.find(x=>x.id===id);
+  if(!item) return;
+  if(State.player.掀桌值 < item.price){
+    tip("掀桌值不足", "bad"); return;
+  }
+  State.player.掀桌值 = clamp(State.player.掀桌值 - item.price, 0, 100);
+  item.apply(State);
+  tip(`购买成功：${item.name}`, "good");
+  renderShop(); renderStats(); renderSystem("商城购买已生效。");
+}
+
+/* ===================== 存档系统 ===================== */
+const SAVE_KEY = "flipTable_save_v1";
+function saveGame(){
+  try{
+    localStorage.setItem(SAVE_KEY, JSON.stringify(State));
+    tip("已存档 ✅", "good");
+  }catch(e){
+    tip("存档失败（浏览器限制）", "bad");
+  }
+}
+function loadGame(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw){ tip("没有存档", "warn"); return; }
+    const obj = JSON.parse(raw);
+    // 浅合并保底（避免旧版本缺字段）
+    Object.assign(State, obj);
+    State.player = Object.assign({
+      风华:92,谋略:78,心智:74,健康:88,掀桌值:0,偏离度:0,贵女声望:85,家族声望:95,"系统警告值":0,"太子好感":0,"苏清莲怀疑":0
+    }, obj.player||{});
+    State.buffs = Object.assign({noPunishOnce:false,actor:false,iron:false,nextIntelBoost:false,lux:false}, obj.buffs||{});
+    State.flags = Object.assign({mainDone:false}, obj.flags||{});
+    State.meta = Object.assign({mainDoneCount:0,lowHPOnce:false,ended:false}, obj.meta||{});
+    State.achvUnlocked = obj.achvUnlocked || {};
+    tip("读档成功 ✅", "good");
+    // 重新渲染
+    typeText(dayIntro(State.day));
+    renderAll("已读档。");
+    setButtonsEnabled(State.phase==="CHOOSE");
+  }catch(e){
+    tip("读档失败", "bad");
+  }
+}
+function resetGame(){
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
+
+/* ===================== AI 续写（可选） ===================== */
+const AI_KEY = "flipTable_ai_v1";
+function getAIConf(){
+  try{
+    return JSON.parse(localStorage.getItem(AI_KEY) || "{}");
+  }catch(e){ return {}; }
+}
+function setAIConf(conf){
+  localStorage.setItem(AI_KEY, JSON.stringify(conf));
+}
+function openAISettings(){
+  const c=getAIConf();
+  $("aiBase").value = c.base || "";
+  $("aiModel").value = c.model || "";
+  $("aiKey").value = c.key || "";
+  $("aiTemp").value = String(c.temp ?? "0.9");
+  aiStatus.innerText = "状态：未测试";
+  aiMask.classList.add("show");
+}
+function closeAISettings(){ aiMask.classList.remove("show"); }
+
+async function aiChat(prompt){
+  const c=getAIConf();
+  if(!c.base || !c.model || !c.key) throw new Error("AI未配置完整");
+  const url = c.base.replace(/\/+$/,"") + "/chat/completions";
+  const controller = new AbortController();
+  const t = setTimeout(()=>controller.abort(), 15000);
+
+  const body = {
+    model: c.model,
+    temperature: Number(c.temp ?? 0.9),
+    messages: [
+      {role:"system", content:"你是中文互动小说写手。风格：快节奏、戏剧张力、甜宠/权谋可切换。不要输出代码，只输出剧情文本。"},
+      {role:"user", content: prompt}
+    ]
+  };
+
+  const res = await fetch(url, {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + c.key
+    },
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).finally(()=>clearTimeout(t));
+
+  if(!res.ok){
+    const txt = await res.text().catch(()=> "");
+    throw new Error("HTTP "+res.status+" "+txt.slice(0,120));
+  }
+  const data = await res.json();
+  const out = data?.choices?.[0]?.message?.content;
+  if(!out) throw new Error("无输出");
+  return out.trim();
+}
+
+function localFallbackContinuation(){
+  // 无AI时的内置续写：根据路线生成一小段 + 下一步提示
+  const P=State.player;
+  const route = State.route;
+  const mood = route==="SWEET" ? "甜" : (route==="DARK" ? "狠" : "稳");
+  const hint = route==="SWEET" ? "建议多做【主线】堆太子好感" :
+               route==="DARK" ? "建议多做【证据/掀桌】堆怀疑与谋略" :
+               "建议主线与证据交替推进";
+  return `【内置续写】\n你在心里把今日的刀口又磨了一遍。\n${mood === "甜" ? "太子的目光落在你身上，像无声的偏爱。" : (mood==="狠" ? "你笑得更轻，心却更冷。" : "你把情绪压住，把棋盘铺开。")}\n\n下一步：Day${State.day}主线「${mainTask(State.day)}」。\n（${hint}）`;
+}
+
+/* AI续写按钮：只扩写“当前局势总结”，不改变系统结构 */
+async function doAIContinue(){
+  $("btnAI").disabled = true;
+  tip("AI续写中…", "warn");
+
+  const P = State.player;
+  const prompt =
+`当前是 Day${State.day}/20，标题：${dayTitle(State.day)}。
+主线任务：${mainTask(State.day)}。
+数值：太子好感=${P["太子好感"]}，苏清莲怀疑=${P["苏清莲怀疑"]}，谋略=${P.谋略}，掀桌值=${P["掀桌值"]}，系统警告值=${P["系统警告值"]}，健康=${P.健康}，心智=${P.心智}。
+路线倾向：${State.route}。
+请写一段200-350字的“剧情续写”，要衔接当前局势，结尾给出一句可执行的下一步建议（不要写列表）。`;
+
+  try{
+    const txt = await aiChat(prompt);
+    typeText(txt);
+    renderSystem("AI续写成功。");
+  }catch(e){
+    const fb = localFallbackContinuation();
+    typeText(fb);
+    renderSystem("AI请求异常：已使用内置续写。");
+    tip("AI请求异常（已降级）", "bad");
+  }finally{
+    $("btnAI").disabled = false;
+  }
+}
+
+/* 自定义行动：简单意图识别 + 可选AI扩写 */
+function classifyCustom(text){
+  const t = text.trim();
+  const hasPrince = /太子|东宫|殿下|慕容/.test(t);
+  const hasProof  = /证据|账本|账册|线索|内侍|礼部|丞相|苏清莲/.test(t);
+  const hasFlip   = /掀桌|当众|撕|打脸|翻|砸|羞辱|逼迫|威胁/.test(t);
+  const hasRest   = /休息|养|修整|喝药|睡|闭门|调养/.test(t);
+
+  if(hasRest) return "REST";
+  if(hasFlip) return "FLIP";
+  if(hasProof) return "PROOF";
+  if(hasPrince) return "MAIN";
+  return "BALANCE";
+}
+function customEffect(kind){
+  if(kind==="MAIN") return {"太子好感":+3,"贵女声望":+1,"系统警告值":-2,"偏离度":-1};
+  if(kind==="PROOF") return {"谋略":+3,"苏清莲怀疑":+5,"偏离度":+1};
+  if(kind==="FLIP") return {"掀桌值":+7,"系统警告值":+7,"偏离度":+3,"心智":-1,"贵女声望":-1};
+  if(kind==="REST") return {"健康":+5,"心智":+4,"系统警告值":-1};
+  return {"谋略":+1,"贵女声望":+1,"偏离度":0};
+}
+function customStory(text, kind){
+  const head = kind==="MAIN" ? "【自定义·体面推进】" :
+               kind==="PROOF" ? "【自定义·证据推进】" :
+               kind==="FLIP" ? "【自定义·掀桌开杀】" :
+               kind==="REST" ? "【自定义·闭门修整】" :
+               "【自定义·行动】";
+  return `${head}\n你选择：${text}\n\n系统记录你的选择，并在暗处重新计算“命运修正”。`;
+}
+
+async function doCustom(useAI=false){
+  const text = $("customText").value.trim();
+  if(!text){ tip("先写一句行动", "warn"); return; }
+
+  let story = "";
+  let kind = classifyCustom(text);
+
+  if(useAI){
+    try{
+      const P=State.player;
+      const prompt =
+`你在写中文互动小说。请把玩家的行动扩写成150-220字剧情段落（不要写代码、不要列表），风格：戏剧张力+女配掀桌爽感；可以甜宠或权谋但要贴合数值。
+玩家行动：${text}
+当前Day：${State.day}
+数值：太子好感=${P["太子好感"]}，苏清莲怀疑=${P["苏清莲怀疑"]}，谋略=${P.谋略}，掀桌值=${P["掀桌值"]}，系统警告值=${P["系统警告值"]}。
+输出：只输出剧情文本。`;
+      story = await aiChat(prompt);
+    }catch(e){
+      story = customStory(text, kind) + "\n（AI请求异常：已用简版文本。）";
+      tip("AI请求异常（已降级）", "bad");
+    }
+  }else{
+    story = customStory(text, kind);
+  }
+
+  // 执行一个“临时行动”
+  const op = {
+    id:"CUSTOM",
+    tag:[ kind==="MAIN"?"主线":(kind==="PROOF"?"谋略":(kind==="FLIP"?"掀桌":"养成")),
+          kind==="FLIP"?"高风险":(kind==="PROOF"?"中风险":"低风险") ],
+    highlight: kind==="FLIP",
+    actionKey: kind==="MAIN"?"MAIN":(kind==="PROOF"?"PROOF":(kind==="FLIP"?"FLIP":"REST")),
+    effect: customEffect(kind),
+    story: story,
+    focus: kind==="PROOF"?"su":(kind==="MAIN"?"prince":"heroine")
+  };
+  customMask.classList.remove("show");
+  $("customText").value="";
+  applyAction(op);
+}
+
+/* ===================== 统一渲染入口 ===================== */
+function renderAll(extra=""){
+  renderSubtitle();
+  renderOptions();
+  renderStats();
+  renderSystem(extra);
+  renderPortrait();
+}
+
+/* ===================== 事件绑定 ===================== */
+$("btnEnd").onclick = nextDay;
+$("btnSkip").onclick = skipToEnding;
+
+$("btnShop").onclick = ()=>{ renderShop(); shopMask.classList.add("show"); };
+$("btnCloseShop").onclick = ()=> shopMask.classList.remove("show");
+shopMask.addEventListener("click", e=>{ if(e.target===shopMask) shopMask.classList.remove("show"); });
+
+$("btnSave").onclick = saveGame;
+$("btnLoad").onclick = loadGame;
+$("btnReset").onclick = resetGame;
+
+$("btnAchv").onclick = ()=>{ renderAchvList(); achvMask.classList.add("show"); };
+$("btnCloseAchv").onclick = ()=> achvMask.classList.remove("show");
+achvMask.addEventListener("click", e=>{ if(e.target===achvMask) achvMask.classList.remove("show"); });
+
+$("btnAIKey").onclick = openAISettings;
+$("btnCloseAI").onclick = closeAISettings;
+aiMask.addEventListener("click", e=>{ if(e.target===aiMask) closeAISettings(); });
+
+$("btnSaveAI").onclick = ()=>{
+  const conf = {
+    base: $("aiBase").value.trim(),
+    model: $("aiModel").value.trim(),
+    key: $("aiKey").value.trim(),
+    temp: Number($("aiTemp").value)
+  };
+  setAIConf(conf);
+  aiStatus.innerText = "状态：已保存（建议点测试）";
+  tip("AI设置已保存", "good");
+};
+$("btnClearAI").onclick = ()=>{
+  localStorage.removeItem(AI_KEY);
+  aiStatus.innerText = "状态：已清空";
+  tip("已清空AI设置", "warn");
+};
+$("btnTestAI").onclick = async ()=>{
+  aiStatus.innerText = "状态：测试中…";
+  try{
+    const txt = await aiChat("回复“OK”。");
+    aiStatus.innerText = "状态：✅ 连接成功：" + (txt.slice(0,30) || "OK");
+    tip("AI测试成功", "good");
+  }catch(e){
+    aiStatus.innerText = "状态：❌ 失败：" + String(e.message||e).slice(0,120);
+    tip("AI测试失败", "bad");
+  }
+};
+
+$("btnAI").onclick = doAIContinue;
+
+$("btnCustom").onclick = ()=> customMask.classList.add("show");
+$("btnCloseCustom").onclick = ()=> customMask.classList.remove("show");
+customMask.addEventListener("click", e=>{ if(e.target===customMask) customMask.classList.remove("show"); });
+$("btnDoCustom").onclick = ()=> doCustom(false);
+$("btnDoCustomAI").onclick = ()=> doCustom(true);
+
+$("btnPortrait").onclick = ()=>{
+  const focus = State.focus;
+  const list = Portraits[focus] || Portraits.heroine;
+  State.portraitIndex = (State.portraitIndex + 1) % list.length;
+  renderPortrait();
+};
+
+/* ===================== 初始化 ===================== */
+function init(){
+  // 如果有存档，自动载入更方便（你也可以注释掉）
+  // loadGame();
+
+  typeText(dayIntro(State.day));
+  State.focus = "heroine";
+  renderAll("选择行动开始 Day1。");
+  setButtonsEnabled(true);
+  $("btnEnd").disabled = true; // 必须先选行动才能结束回合
+}
+init();
+</script>
+
+<!--
+✅ GitHub Pages 必须把本文件命名为：index.html（全小写）并放在仓库根目录
+✅ 你现在有两个文件（index 和 index.html）会导致混乱：建议只留 index.html
+✅ Pages 设置：Settings → Pages → Deploy from a branch → main / (root) → Save
+-->
+</body>
+</html>
