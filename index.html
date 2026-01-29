@@ -1078,17 +1078,17 @@ function resetGame(){
   renderAll("请选择行动。");
   autoSave();
 }
-function loadAuto(){
-  const raw = localStorage.getItem(SAVE_KEY);
+
+  cofunction loadAuto(){
+  const raw = localStorage.getItem("fny_auto_save");
   if(!raw) return null;
   try{
-    const obj = JSON.parse(raw);
-    if(obj && obj.version==="boli-ultimate-v1") return obj;
-  }catch(e){}
-  return null;
-}
-
-/* ========= AI：续写（OpenAI兼容 /v1/chat/completions） ========= */
+    return JSON.parse(raw);
+  }catch(e){
+    console.warn("autosave parse failed", e);
+    return null;
+  }
+  /* ========= AI：续写（OpenAI兼容 /v1/chat/completions） ========= */
 async function aiContinue(){
   const base = localStorage.getItem("boli_ai_base") || AI_DEFAULT.baseURL;
   const model = localStorage.getItem("boli_ai_model") || AI_DEFAULT.model;
