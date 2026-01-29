@@ -192,7 +192,7 @@ h3{margin:0 0 10px; color:var(--accent); font-size:16px; letter-spacing:.4px;}
       </div>
     </div>
     <div class="hr"></div>
-    <div id="story"></div>
+    <div id="story">加载中…如果这里一直空白，说明脚本没有运行或报错。请往下看“报错提示”。</div>
   </div>
 
   <div class="card" id="cardAction">
@@ -294,6 +294,18 @@ h3{margin:0 0 10px; color:var(--accent); font-size:16px; letter-spacing:.4px;}
 </div>
 
 <script>
+  window.onerror = function (msg, src, line, col, err) {
+  const box = document.getElementById("story");
+  if (box) {
+    box.textContent =
+      "【脚本报错】\n" +
+      String(msg) + "\n\n" +
+      "位置：" + String(src) + "\n" +
+      "行：" + line + " 列：" + col + "\n\n" +
+      "（请把这段截图发我，我能立刻定位）";
+  }
+  return true;
+};
 /* =========================
    终极版核心修复点：
    ✅ 彻底禁止用 i 当“选项/天数/循环索引”
