@@ -1726,7 +1726,24 @@ $("btnCloseEnd").onclick = ()=> $("endMask").classList.remove("show");
   setActive("you");
   typeText(Plot[State.day].intro);
   unlockAchievements();
-})();
+})();// ===== 游戏启动 =====
+function startGame(){
+    if(!State.day) State.day = 1;
+
+    const plot = Plot[State.day];
+    if(!plot){
+        document.getElementById("story").innerText = "剧情已结束";
+        return;
+    }
+
+    document.getElementById("story").innerText = plot.intro || "";
+    renderOptions();
+    renderStats();
+    renderSystem();
+}
+
+// 页面加载自动启动
+window.onload = startGame;
 </script>
 </body>
 </html>
