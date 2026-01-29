@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>修仙宗门系统·世界年表自动推进版（恋爱/背叛/权谋/AI回合）</title>
+  <style>    :root{      --bg:#0b0f17;      --panel:rgba(255,255,255,.06);      --panel2:rgba(255,255,255,.09);      --border:rgba(255,255,255,.12);      --border2:rgba(255,255,255,.18);      --text:rgba(255,255,255,.92);      --muted:rgba(255,255,255,.68);      --muted2:rgba(255,255,255,.54);      --good:#57ffb6;      --bad:#ff5d7a;      --warn:#ffd36a;      --accent:#7aa7ff;      --accent2:#b18cff;      --shadow:0 18px 60px rgba(0,0,0,.45);      --radius:18px;      --radius2:14px;      --gap:14px;      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;      --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,"Noto Sans CJK SC",sans-serif;    }    *{ box-sizing:border-box; }    html,body{ height:100%; }    body{      margin:0;      font-family:var(--sans);      background:        radial-gradient(900px 500px at 20% 10%, rgba(122,167,255,.22), transparent 55%),        radial-gradient(800px 450px at 80% 20%, rgba(177,140,255,.18), transparent 55%),        radial-gradient(900px 650px at 50% 90%, rgba(87,255,182,.10), transparent 55%),        var(--bg);      color:var(--text);      overflow-x:hidden;    }    header{      padding:18px 16px 10px;      max-width:1200px;      margin:0 auto;      display:flex;      gap:14px;      align-items:center;      justify-content:space-between;      flex-wrap:wrap;    }    .brand{ display:flex; gap:12px; align-items:center; min-width:0; }    .logo{      width:44px;height:44px;border-radius:16px;      background:linear-gradient(135deg, rgba(122,167,255,.9), rgba(177,140,255,.85));      box-shadow:var(--shadow);      border:1px solid rgba(255,255,255,.2);      position:relative;    }    .logo:after{ content:"✦"; position:absolute; inset:0; display:grid; place-items:center; font-size:18px; opacity:.9; }    .titlewrap{ min-width:0; }    .title{      font-size:16px; font-weight:900; letter-spacing:.2px; line-height:1.1;      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;    }    .subtitle{      margin-top:2px;      font-size:12px; color:var(--muted);      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;    }    .top-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center; }    button, .chip{      border:1px solid var(--border);      background:rgba(255,255,255,.06);      color:var(--text);      padding:10px 12px;      border-radius:999px;      cursor:pointer;      transition:transform .08s ease,border-color .12s ease,background .12s ease;      user-select:none;      font-weight:800;      letter-spacing:.2px;    }    button:hover{ transform:translateY(-1px); border-color:var(--border2); background:rgba(255,255,255,.08); }    button:active{ transform:translateY(0) scale(.99); }    .chip{ cursor:default; display:inline-flex; gap:8px; align-items:center; padding:9px 12px; font-weight:900; }    .dot{ width:8px; height:8px; border-radius:99px; background:var(--accent); box-shadow:0 0 0 4px rgba(122,167,255,.12); }    main{ max-width:1200px; margin:0 auto; padding:10px 16px 22px; }    .grid{      display:grid;      grid-template-columns: 1.35fr .95fr;      grid-template-rows: 1fr 1fr;      gap:var(--gap);      min-height:calc(100vh - 120px);    }    @media (max-width: 980px){      .grid{ grid-template-columns:1fr; grid-template-rows:auto; }    }    .card{      background:linear-gradient(180deg, var(--panel), rgba(255,255,255,.03));      border:1px solid var(--border);      border-radius:var(--radius);      box-shadow:var(--shadow);      overflow:hidden;      position:relative;    }    .card .head{      padding:14px 14px 10px;      display:flex;      align-items:flex-start;      justify-content:space-between;      gap:10px;      border-bottom:1px solid rgba(255,255,255,.08);      background:rgba(255,255,255,.03);      flex-wrap:wrap;    }    .card h2{      margin:0;      font-size:14px;      letter-spacing:.3px;      font-weight:950;      display:flex;      align-items:center;      gap:10px;    }    .tag{      font-size:11px;      color:var(--muted);      font-weight:900;      padding:4px 10px;      border-radius:999px;      border:1px solid rgba(255,255,255,.12);      background:rgba(0,0,0,.15);      white-space:nowrap;    }    .card .body{ padding:14px; height:100%; }    /* Story */    .story{      font-size:14px;      line-height:1.75;      color:rgba(255,255,255,.9);      white-space:pre-wrap;      min-height:230px;    }    .typing-caret{      display:inline-block;      width:8px;height:1em;      transform:translateY(2px);      margin-left:2px;      border-right:2px solid rgba(255,255,255,.75);      animation:blink 1s steps(2,end) infinite;    }    @keyframes blink { 50%{ opacity:.1; } }    /* Stats */    .stats{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }    .stat{      border:1px solid rgba(255,255,255,.10);      border-radius:var(--radius2);      padding:10px 10px;      background:rgba(0,0,0,.12);      overflow:hidden;    }    .stat .k{ font-size:11px; color:var(--muted2); font-weight:950; letter-spacing:.3px; }    .stat .v{ margin-top:6px; font-family:var(--mono); font-size:13px; font-weight:950; letter-spacing:.2px; }    .bar{ height:8px; margin-top:10px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; border:1px solid rgba(255,255,255,.08); }    .bar > i{ display:block; height:100%; width:50%; background:linear-gradient(90deg, rgba(122,167,255,.95), rgba(87,255,182,.9)); border-radius:999px; }    /* Options */    .options{ display:flex; flex-direction:column; gap:10px; }    .opt{      display:flex; gap:10px; align-items:flex-start;      border:1px solid rgba(255,255,255,.12);      background:rgba(0,0,0,.12);      padding:10px 12px;      border-radius:var(--radius2);      cursor:pointer;      transition:transform .08s ease,border-color .12s ease,background .12s ease;    }    .opt:hover{ transform:translateY(-1px); border-color:rgba(255,255,255,.20); background:rgba(0,0,0,.18); }    .opt:active{ transform:translateY(0) scale(.995); }    .badge{      min-width:30px;height:30px;border-radius:12px;      display:grid;place-items:center;      font-weight:1000;      background:linear-gradient(135deg, rgba(122,167,255,.9), rgba(177,140,255,.65));      border:1px solid rgba(255,255,255,.16);      box-shadow:0 10px 30px rgba(0,0,0,.25);    }    .opt .t{ font-weight:950; font-size:13px; letter-spacing:.2px; }    .opt .d{ margin-top:4px; color:var(--muted); font-size:12px; line-height:1.55; }    .opt.key{      border-color:rgba(255,211,106,.45);      background:linear-gradient(180deg, rgba(255,211,106,.12), rgba(0,0,0,.14));    }    .opt.key .badge{ background:linear-gradient(135deg, rgba(255,211,106,.95), rgba(122,167,255,.7)); }    /* Free input */    .free-input{      display:flex; gap:10px; align-items:center;      margin-top:10px;      padding:10px;      border-radius:var(--radius2);      border:1px dashed rgba(255,255,255,.16);      background:rgba(0,0,0,.10);      flex-wrap:wrap;    }    .free-input input{      flex:1;      min-width:180px;      background:rgba(255,255,255,.06);      border:1px solid rgba(255,255,255,.12);      color:var(--text);      border-radius:12px;      padding:10px 12px;      outline:none;      font-weight:800;    }    .free-input input::placeholder{ color:rgba(255,255,255,.35); font-weight:800; }    .free-input button{      padding:10px 14px;      border-radius:12px;      border:1px solid rgba(255,255,255,.16);      background:rgba(122,167,255,.18);    }    /* Log */    .log{ display:flex; flex-direction:column; gap:10px; height:100%; }    .loglist{ flex:1; overflow:auto; padding-right:6px; }    .logitem{      border:1px solid rgba(255,255,255,.10);      background:rgba(0,0,0,.10);      padding:10px 12px;      border-radius:var(--radius2);      margin-bottom:10px;    }    .logitem .time{ font-family:var(--mono); font-size:11px; color:var(--muted2); font-weight:900; letter-spacing:.2px; }    .logitem .msg{ margin-top:6px; font-size:12px; color:rgba(255,255,255,.85); line-height:1.55; white-space:pre-wrap; }    .pillrow{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }    .pill{      padding:6px 10px;      border-radius:999px;      border:1px solid rgba(255,255,255,.12);      background:rgba(255,255,255,.05);      color:var(--muted);      font-size:11px;      font-weight:900;      letter-spacing:.2px;    }    /* Float */    .float{      position:fixed; z-index:9999;      padding:8px 10px; border-radius:12px;      border:1px solid rgba(255,255,255,.18);      background:rgba(0,0,0,.55);      box-shadow:var(--shadow);      font-family:var(--mono);      font-weight:1000; font-size:12px;      pointer-events:none;      transform:translate(-50%,-50%);      animation:floatUp 1.05s ease forwards;    }    .float.good{ color:var(--good); }    .float.bad{ color:var(--bad); }    .float.warn{ color:var(--warn); }    @keyframes floatUp{      0%{ opacity:0; transform:translate(-50%,-50%) translateY(6px) scale(.98); }      15%{ opacity:1; }      100%{ opacity:0; transform:translate(-50%,-50%) translateY(-34px) scale(1.02); }    }    /* AI panel */    .ai-panel{      display:grid;      gap:10px;      border:1px solid rgba(255,255,255,.10);      background:rgba(0,0,0,.12);      padding:10px;      border-radius:var(--radius2);      margin-top:10px;    }    .ai-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }    .ai-row input, .ai-row select, .ai-row textarea{      background:rgba(255,255,255,.06);      border:1px solid rgba(255,255,255,.12);      color:var(--text);      border-radius:12px;      padding:10px 12px;      outline:none;      font-weight:800;      font-family:var(--sans);    }    .ai-row textarea{ width:100%; min-height:90px; resize:vertical; font-family:var(--mono); font-weight:800; font-size:12px; }    .ai-row .w1{ flex:1; min-width:180px; }    .ai-row .w2{ flex:2; min-width:220px; }    .ai-help{ color:var(--muted); font-size:12px; line-height:1.6; }    footer{      max-width:1200px;      margin:0 auto;      padding:0 16px 18px;      color:var(--muted2);      font-size:12px;      line-height:1.6;    }    .kbd{      font-family:var(--mono);      padding:2px 7px;      border-radius:9px;      border:1px solid rgba(255,255,255,.14);      background:rgba(0,0,0,.22);      color:rgba(255,255,255,.8);      font-weight:900;    }  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"></div>
+    <div class="titlewrap">
+      <div class="title">修仙宗门系统·世界年表自动推进版（恋爱 / 背叛 / 权谋 / AI回合）</div>
+      <div class="subtitle">世界时间自动推进 · NPC好感/信任/野心/黑化 · 宗门内政&家族势力 · 世界事件时间线 · 反派阵营</div>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <span class="chip"><span class="dot"></span><span id="chipRound">回合：1</span></span>
+    <span class="chip"><span class="dot" style="background:var(--accent2)"></span><span id="chipSeed">世界线：seed</span></span>
+    <span class="chip"><span class="dot" style="background:var(--good)"></span><span id="chipDate">时间：1年春·1日</span></span>
+    <button id="btnSave">保存</button>
+    <button id="btnLoad">读取</button>
+    <button id="btnReset">重开</button>
+  </div>
+</header>
+
+<main>
+  <section class="grid">
+    <!-- 剧情 -->
+    <article class="card">
+      <div class="head">
+        <h2>📜 剧情推进 <span class="tag" id="tagPhase">开局</span></h2>
+        <span class="tag" id="tagPlace">凡尘</span>
+      </div>
+      <div class="body">
+        <div class="story" id="story"></div>
+
+        <div class="ai-panel">
+          <div class="ai-row">
+            <label class="tag" title="开启后，每回合会优先调用AI生成剧情和选项">AI</label>
+            <select id="aiMode" class="w1">
+              <option value="off">关闭（本地世界引擎）</option>
+              <option value="gemini">Gemini（generateContent）</option>
+              <option value="openai">OpenAI兼容（/v1/chat/completions）</option>
+              <option value="custom">自定义HTTP接口</option>
+            </select>
+            <input id="aiEndpoint" class="w2" placeholder="Endpoint，例如：https://.../v1/chat/completions 或 https://...:generateContent" />
+          </div>
+
+          <div class="ai-row">
+            <input id="aiKey" class="w2" placeholder="API Key（仅保存在本机 localStorage）" />
+            <button id="btnAiTest">测试AI</button>
+            <button id="btnAiSave">保存AI配置</button>
+          </div>
+
+          <div class="ai-row">
+            <textarea id="aiTemplate" placeholder="可选：自定义请求模板（JSON）。留空=内置模板。变量：{{prompt}} {{seed}} {{state}}"></textarea>
+          </div>
+
+          <div class="ai-help">
+            AI回合要求：返回 JSON（story/options/effects）。系统会做容错：JSON解析失败则回退到本地世界引擎。<br/>
+            小贴士：把模型温度调低（0.6左右）更稳定；想更戏剧就调高（0.9~1.1）。
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 状态 -->
+    <article class="card">
+      <div class="head">
+        <h2>🧭 状态面板 <span class="tag" id="tagSect">散修</span></h2>
+        <span class="tag" id="tagLinggen">灵根：未测</span>
+      </div>
+      <div class="body">
+        <div class="stats" id="stats"></div>
+      </div>
+    </article>
+
+    <!-- 选项 -->
+    <article class="card">
+      <div class="head">
+        <h2>🗝️ 决策 <span class="tag" id="tagHint">请选择</span></h2>
+        <span class="tag" id="tagNPC">NPC：未登场</span>
+      </div>
+      <div class="body">
+        <div class="options" id="options"></div>
+        <div class="free-input">
+          <input id="freeText" placeholder="第6项：自定义对策（例如：向掌门告密、暗中结盟、夜探库房、刺探内鬼）" />
+          <button id="btnFree">执行</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 日志 -->
+    <article class="card">
+      <div class="head">
+        <h2>🗂️ 事件 · 世界年表 · 权谋线</h2>
+        <span class="tag">记录</span>
+      </div>
+      <div class="body">
+        <div class="log">
+          <div class="loglist" id="loglist"></div>
+          <div class="pillrow" id="pillrow"></div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer>
+  玩法：每回合自动推进“世界时间”，世界事件会按年表/概率触发。NPC有好感/信任/野心/黑化，可能恋爱也可能背叛。<br/>
+  存档：保存/读取使用 <span class="kbd">localStorage</span>。你也可以在“自定义对策”里写任何行动，AI/本地引擎都会接住并生成下一回合。<br/>
+</footer>
+
+<script type="module">
+/* ===========================
+  修仙宗门系统·世界年表自动推进版
+  - 修复原文件的脚本嵌套/未闭合导致的“选项不动/无法进第二天”问题
+  - 加入世界年表、恋爱背叛政治斗争、NPC关系、宗门内政、家族势力、反派阵营
+  - AI每回合自动生成剧情与选项（带Prompt优化）
+=========================== */
+
+/** ---------- Utils ---------- */
+function xmur3(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){ h=Math.imul(h^str.charCodeAt(i),3432918353); h=(h<<13)|(h>>>19);} return function(){ h=Math.imul(h^(h>>>16),2246822507); h=Math.imul(h^(h>>>13),3266489909); return (h^=h>>>16)>>>0; }; }
+function mulberry32(a){ return function(){ let t=a+=0x6D2B79F5; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; }; }
+function makeRng(seedStr){ const seedFn=xmur3(seedStr); return mulberry32(seedFn()); }
+function randInt(rng,a,b){ return Math.floor(rng()*(b-a+1))+a; }
+function pick(rng,arr){ return arr[randInt(rng,0,arr.length-1)]; }
+function clamp01(x){ return Math.max(0,Math.min(1,x)); }
+function nowTime(){ const d=new Date(); return d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"}); }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function deepClone(x){ return JSON.parse(JSON.stringify(x)); }
+
+/** ---------- World Data ---------- */
+const WORLD = {
+  seasons:["春","夏","秋","冬"],
+  phases:{
+    START:{ name:"开局·入局", place:"凡尘·测灵台" },
+    SECT:{ name:"宗门·内政与大比", place:"山门·宗务堂" },
+    POLITICS:{ name:"权谋·联姻与暗线", place:"修真界·诸域" },
+    SECRET:{ name:"秘境·机缘与杀局", place:"洞天·裂隙" },
+    OPEN:{ name:"风起云涌", place:"天下棋局" }
+  },
+  linggen:{
+    elements:["金","木","水","火","土"],
+    variants:["冰","雷","风","光","暗","毒"],
+    grades:["凡品","下品","中品","上品","极品","天灵根"],
+    gradeWeights:[8,18,30,26,14,4]
+  },
+  factions:[
+    {id:"orthodox", name:"正道诸宗"},
+    {id:"imperial", name:"皇权朝廷"},
+    {id:"families", name:"世家门阀"},
+    {id:"demon", name:"魔道诸脉"},
+    {id:"alliance", name:"仙盟"}
+  ],
+  villains:[
+    {id:"v_mozun", name:"魔尊·夜无烬", role:"终局反派", faction:"demon", vibe:"以天下为炉，炼人心为火", agenda:"以秘境裂隙引魔潮，逼正道内斗自毁"},
+    {id:"v_neigui", name:"司辰令·闻人策", role:"仙盟内鬼", faction:"alliance", vibe:"冷静、讲秩序，却最擅改秩序", agenda:"暗中扶持魔道，以战争重塑仙盟权柄"},
+    {id:"v_shijia", name:"世家主母·姜凝霜", role:"政治反派", faction:"families", vibe:"温柔刀，刀刀见血", agenda:"联姻吞并宗门资源，扶家族登顶"}
+  ],
+  npcSeeds:[
+    {id:"n_head", name:"掌门·顾玄霄", role:"掌门", faction:"orthodox", vibe:"清冷寡言，最重规矩", hook:"只认能扛事的弟子"},
+    {id:"n_elder1", name:"执法长老·沈无咎", role:"执法", faction:"orthodox", vibe:"铁面无私", hook:"你越矩一次，他记一笔"},
+    {id:"n_elder2", name:"传功长老·陆归鸿", role:"传功", faction:"orthodox", vibe:"言少但护短", hook:"护短的前提是你值得"},
+    {id:"n_peer1", name:"同门·柳照影", role:"同门天骄", faction:"orthodox", vibe:"笑意浅，心机深", hook:"她会帮你，也会利用你"},
+    {id:"n_peer2", name:"同门·花绛雪", role:"同门/暧昧", faction:"orthodox", vibe:"撩拨人心，危险又迷人", hook:"你越清醒，她越想让你失控"},
+    {id:"n_envoy", name:"朝廷使者·裴观星", role:"钦使", faction:"imperial", vibe:"言辞得体，眼神却像在估价", hook:"他不谈感情，只谈筹码"}
+  ],
+  timeline:[
+    { y:1, m:1, d:3, title:"宗门收徒风波", desc:"名额被世家插手，引发内斗苗头", type:"sect" },
+    { y:1, m:1, d:8, title:"朝廷赦令", desc:"皇权要求宗门交税/交人，政治压力上升", type:"politics" },
+    { y:1, m:2, d:6, title:"秘境裂隙初现", desc:"妖魔气息渗出，魔道试探", type:"demon" },
+    { y:1, m:3, d:1, title:"诸派会盟", desc:"仙盟召集各宗，暗线势力渗透", type:"alliance" },
+    { y:1, m:4, d:10, title:"宗门大比", desc:"胜负之外，开始出现‘被安排’的对局", type:"sect" },
+    { y:2, m:1, d:1, title:"北境告急", desc:"玄冥异动/魔潮边缘战爆发", type:"war" }
+  ],
+  localPrompts:{
+    openers:[
+      "晨雾在测灵台上翻涌，你听见玉石里有细碎的回响。",
+      "你踏入宗务堂，众长老的目光像一把把尺，量你的骨、量你的心。",
+      "灯火照着名册，某些名字被圈红——那是‘该死’的人。"
+    ],
+    politics:[
+      "宴席上的笑都带刃。你端杯的一瞬，已有人在盘算你该站哪一边。",
+      "某位使者递来一封密函：只要你点头，宗门就会少一个敌人——也会多一个债。"
+    ],
+    romance:[
+      "他/她靠得太近，近到你能听见呼吸里的颤。可你更清楚：越是温柔，越可能是刀。",
+      "你以为那是一句情话，可细想才懂，那是占有欲写成的契约。"
+    ]
+  }
+};
+
+/** ---------- Prompt Optimizer ---------- */
+function buildOptimizedPrompt(state, lastAction){
+  const s = {
+    time: state.time,
+    phase: state.phase,
+    place: WORLD.phases[state.phase]?.place,
+    sect: state.sect?.name || "散修",
+    family: state.family,
+    world: state.world,
+    stats: state.stats,
+    linggen: state.linggen,
+    topNPC: Object.values(state.npcs).slice(0,8).map(n=>({
+      id:n.id, name:n.name, role:n.role, faction:n.faction,
+      favor:n.favor, trust:n.trust, ambition:n.ambition, corruption:n.corruption,
+      flags:n.flags
+    })),
+    threats: state.worldline,
+    lastEvents: state.logs.slice(0,4).map(x=>x.title+":"+x.msg).join(" | "),
+  };
+
+  return `
+你是“修仙+权谋+恋爱+背叛”的回合制剧情引擎。请严格按JSON输出，不要输出多余文字。
+
+【世界规则】
+- 时间每天推进；可能触发年表事件/随机事件。
+- NPC有：favor好感(0-100)、trust信任(0-100)、ambition野心(0-100)、corruption黑化(0-100)。
+- 当 trust<30 且 (ambition>70 或 corruption>80) 时，可以触发背叛/阴谋事件（必须合理伏笔）。
+- 必须包含：情绪、对话、权谋算计、关系变化、伏笔。
+- 必须提供 3~5 个选项。每个选项必须带 effects（stats/relations/world/sect/family 任意组合）。
+
+【主角状态(JSON)】
+${JSON.stringify(s, null, 2)}
+
+【玩家上一步行动】
+${lastAction ? lastAction : "无（开局）"}
+
+【输出格式（严格JSON）】
+{
+  "story": "本回合剧情（中文，带心理+对话+权谋/情感）",
+  "tags": {"phase":"...", "place":"...", "npcTag":"..."},
+  "options": [
+    {"title":"...", "desc":"...", "effects": {
+      "stats": {"rep": 0, "luck": 0},
+      "relations": {"npcId": {"favor": 0, "trust": 0, "ambition": 0, "corruption": 0}},
+      "sect": {"stability":0, "treasury":0, "elderInfluence": {"n_elder1":0}},
+      "family": {"prestige":0, "wealth":0, "power":0},
+      "world": {"imperialStability":0, "demonPressure":0}
+    }}
+  ],
+  "timeline_add": [{"y":1,"m":1,"d":1,"title":"...","desc":"..."}]
+}
+
+注意：effects 数值是小幅增减（-10~+10为主），不要一回合爆炸。
+`.trim();
+}
+
+/** ---------- Model ---------- */
+const STAT_META = [
+  { key:"luck", label:"气运", type:"number", min:0, max:100, init:62 },
+  { key:"insight", label:"悟性", type:"number", min:0, max:100, init:58 },
+  { key:"will", label:"心性", type:"number", min:-100, max:100, init:6 },
+  { key:"health", label:"健康", type:"number", min:0, max:100, init:72 },
+  { key:"sense", label:"神识", type:"number", min:0, max:100, init:55 },
+  { key:"rep", label:"声望", type:"number", min:0, max:100, init:10 },
+  { key:"cp", label:"贡献点", type:"number", min:0, max:9999, init:0 },
+  { key:"stash", label:"私藏灵石", type:"number", min:0, max:999999, init:30 },
+  { key:"realm", label:"境界", type:"text", init:"炼气一层" },
+  { key:"favor", label:"仙盟好感", type:"number", min:0, max:100, init:20 },
+  { key:"karma", label:"因果", type:"number", min:-100, max:100, init:0 },
+  { key:"artifact", label:"本命物", type:"text", init:"无" }
+];
+
+class GameModel{
+  constructor(){ this.reset(); }
+
+  reset(seedStr){
+    const seed = seedStr || `wl_${Date.now()}_${Math.floor(Math.random()*1e9)}`;
+    this.seed = seed;
+    this.rng = makeRng(seed);
+
+    this.round = 1;
+    this.phase = "START";
+
+    this.time = { y:1, m:1, d:1 };
+    this.sect = null;
+
+    this.worldline = {
+      mainThreat: pick(this.rng, [
+        "邪修渗透仙盟，诸派会盟暗藏血阵",
+        "秘境裂隙扩大，妖潮将至",
+        "世家以联姻吞并宗门资源，内斗加剧",
+        "魔尊在暗处布炉，欲炼天下人心"
+      ]),
+      hiddenFaction: pick(this.rng, ["仙盟内鬼","隐世家族","魔道诸脉","天外来客"]),
+      keyTwist: pick(this.rng, ["你身上有被封的第二灵根","你救下的人将来会反噬你","你赢的那一局其实被做了局","你的气运被古物绑定"])
+    };
+
+    this.stats={};
+    for(const m of STAT_META) this.stats[m.key] = (m.type==="number") ? Number(m.init) : m.init;
+
+    this.linggen={ element:null, variant:null, grade:null, purity:null, awakened:false };
+
+    this.family={ name:"范氏旁支", prestige:10, wealth:12, power:8, allies:[], enemies:[] };
+
+    this.sectGov={ stability:50, treasury:40, elderInfluence:{ n_elder1:30, n_elder2:25 } };
+
+    this.world={ imperialStability:55, demonPressure:30, publicFear:20 };
+
+    this.npcs={};
+    for(const base of WORLD.npcSeeds.concat(WORLD.villains)) {
+      this.npcs[base.id] = {
+        id:base.id, name:base.name, role:base.role,
+        faction:base.faction, vibe:base.vibe, hook:base.hook || base.agenda || "",
+        favor: randInt(this.rng, 20, 55),
+        trust: randInt(this.rng, 25, 60),
+        ambition: randInt(this.rng, 25, 70),
+        corruption: base.faction==="demon" ? randInt(this.rng, 70, 95) : randInt(this.rng, 5, 35),
+        flags: []
+      };
+    }
+
+    this.timeline = deepClone(WORLD.timeline);
+    for(const ev of this.timeline) {
+      if(ev.type==="alliance" || ev.type==="politics") ev.d = Math.max(1, ev.d + randInt(this.rng, -1, 2));
+    }
+
+    this.logs=[];
+    this.pills=[];
+
+    this._pushLog("系统", [
+      pick(this.rng, WORLD.localPrompts.openers),
+      "",
+      `【世界线】主危机：${this.worldline.mainThreat}`,
+      `【暗线势力】${this.worldline.hiddenFaction}`,
+      `【关键反转】${this.worldline.keyTwist}`,
+      "",
+      "提示：每回合时间会推进；年表事件可能触发；NPC关系会自然波动。"
+    ].join("\n"));
+
+    this.addPill(`世界线：${this.seed.slice(0,10)}…`);
+  }
+
+  _pushLog(title,msg){ this.logs.unshift({t:nowTime(), title, msg}); this.logs=this.logs.slice(0,120); }
+  addPill(text){ this.pills.unshift(text); this.pills=[...new Set(this.pills)].slice(0,16); }
+
+  toJSON(){ return {
+    seed:this.seed, round:this.round, phase:this.phase,
+    time:this.time, sect:this.sect, worldline:this.worldline,
+    stats:this.stats, linggen:this.linggen,
+    family:this.family, sectGov:this.sectGov, world:this.world,
+    npcs:this.npcs, timeline:this.timeline,
+    logs:this.logs, pills:this.pills
+  }; }
+
+  fromJSON(obj){ Object.assign(this, obj); this.rng=makeRng(this.seed); }
+
+  formatDate() {
+    const season = WORLD.seasons[((this.time.m-1)%4+4)%4] || "春";
+    return `${this.time.y}年${season}·${this.time.m}月${this.time.d}日`;
+  }
+
+  advanceDay() {
+    this.time.d += 1;
+    if(this.time.d > 30) { this.time.d = 1; this.time.m += 1; }
+    if(this.time.m > 4) { this.time.m = 1; this.time.y += 1; }
+  }
+
+  dueTimelineEvents() {
+    return this.timeline.filter(ev=>ev.y===this.time.y && ev.m===this.time.m && ev.d===this.time.d);
+  }
+}
+
+/** ---------- View ---------- */
+class GameView{
+  constructor(){
+    this.$story=document.querySelector("#story");
+    this.$stats=document.querySelector("#stats");
+    this.$options=document.querySelector("#options");
+    this.$loglist=document.querySelector("#loglist");
+    this.$pillrow=document.querySelector("#pillrow");
+    this.$chipRound=document.querySelector("#chipRound");
+    this.$chipSeed=document.querySelector("#chipSeed");
+    this.$chipDate=document.querySelector("#chipDate");
+    this.$tagPhase=document.querySelector("#tagPhase");
+    this.$tagPlace=document.querySelector("#tagPlace");
+    this.$tagSect=document.querySelector("#tagSect");
+    this.$tagLinggen=document.querySelector("#tagLinggen");
+    this.$tagHint=document.querySelector("#tagHint");
+    this.$tagNPC=document.querySelector("#tagNPC");
+  }
+
+  setTopTags(m){
+    this.$chipRound.textContent = `回合：${m.round}`;
+    this.$chipSeed.textContent = `世界线：${m.seed.slice(0,12)}…`;
+    this.$chipDate.textContent = `时间：${m.formatDate()}`;
+
+    const p=WORLD.phases[m.phase] || WORLD.phases.OPEN;
+    this.$tagPhase.textContent = p.name;
+    this.$tagPlace.textContent = p.place;
+
+    this.$tagSect.textContent = m.sect?.name || "散修";
+    if(m.linggen.element){
+      const vv=m.linggen.variant?`·变异(${m.linggen.variant})`:"";
+      const aw=m.linggen.awakened?"·已觉醒":"";
+      this.$tagLinggen.textContent = `灵根：${m.linggen.grade}·${m.linggen.element}${vv}·纯度${m.linggen.purity}%${aw}`;
+    } else this.$tagLinggen.textContent="灵根：未测";
+  }
+
+  renderStats(m){
+    const s=m.stats;
+    const cards=[
+      {k:"境界",v:s.realm,bar:null},
+      {k:"时间",v:m.formatDate(),bar:null},
+      {k:"气运",v:s.luck,bar:clamp01(s.luck/100)},
+      {k:"悟性",v:s.insight,bar:clamp01(s.insight/100)},
+      {k:"心性",v:s.will,bar:clamp01((Number(s.will)+100)/200)},
+      {k:"健康",v:s.health,bar:clamp01(s.health/100)},
+      {k:"神识",v:s.sense,bar:clamp01(s.sense/100)},
+      {k:"声望",v:s.rep,bar:clamp01(s.rep/100)},
+      {k:"家族声势",v:`${m.family.prestige} / ${m.family.wealth} / ${m.family.power}`,bar:clamp01(m.family.prestige/100)},
+      {k:"宗门稳定",v:`${m.sectGov.stability}（库：${m.sectGov.treasury}）`,bar:clamp01(m.sectGov.stability/100)},
+      {k:"朝廷稳定",v:m.world.imperialStability,bar:clamp01(m.world.imperialStability/100)},
+      {k:"魔潮压力",v:m.world.demonPressure,bar:clamp01(m.world.demonPressure/100)},
+      {k:"灵石",v:s.stash,bar:clamp01(Math.min(200,Number(s.stash))/200)},
+      {k:"贡献点",v:s.cp,bar:clamp01(Math.min(100,Number(s.cp))/100)},
+      {k:"仙盟好感",v:s.favor,bar:clamp01(s.favor/100)},
+      {k:"因果",v:s.karma,bar:clamp01((Number(s.karma)+100)/200)},
+      {k:"本命物",v:s.artifact,bar:null}
+    ];
+    this.$stats.innerHTML = cards.map(c=>{
+      const bar=(c.bar==null)?"":`<div class="bar"><i style="width:${Math.round(c.bar*100)}%"></i></div>`;
+      return `<div class="stat"><div class="k">${escapeHTML(c.k)}</div><div class="v">${escapeHTML(String(c.v))}</div>${bar}</div>`;
+    }).join("");
+  }
+
+  renderLog(m){
+    this.$loglist.innerHTML = m.logs.map(it=>`
+      <div class="logitem">
+        <div class="time">${escapeHTML(it.t)} · <b>${escapeHTML(it.title)}</b></div>
+        <div class="msg">${escapeHTML(it.msg)}</div>
+      </div>`).join("");
+    this.$pillrow.innerHTML = m.pills.map(p=>`<span class="pill">${escapeHTML(p)}</span>`).join("");
+  }
+
+  renderOptions(options, hint){
+    this.$tagHint.textContent = hint || "请选择";
+    this.$options.innerHTML = options.map((o,idx)=>`
+      <div class="opt ${o.key ? "key":""}" data-idx="${idx}">
+        <div class="badge">${idx+1}</div>
+        <div class="txt">
+          <div class="t">${escapeHTML(o.title)}</div>
+          <div class="d">${escapeHTML(o.desc || "")}</div>
+        </div>
+      </div>`).join("");
+  }
+
+  setNpcTag(text){ this.$tagNPC.textContent=text || "NPC：未登场"; }
+
+  async typeStory(text){
+    this.$story.textContent="";
+    const caret=document.createElement("span");
+    caret.className="typing-caret";
+    for(let i=0;i<text.length;i++){
+      this.$story.textContent += text[i];
+      if(i%3===0){ this.$story.appendChild(caret); await sleep(10); caret.remove(); }
+    }
+    this.$story.appendChild(caret);
+    await sleep(120);
+    caret.remove();
+  }
+
+  floatChange(x,y,txt,kind="good"){
+    const el=document.createElement("div");
+    el.className=`float ${kind}`;
+    el.style.left=`${x}px`; el.style.top=`${y}px`;
+    el.textContent=txt;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1100);
+  }
+}
+
+/** ---------- AI Client ---------- */
+function loadAiConfig(){
+  return {
+    mode: localStorage.getItem("x_ai_mode") || "off",
+    endpoint: localStorage.getItem("x_ai_endpoint") || "",
+    key: localStorage.getItem("x_ai_key") || "",
+    template: localStorage.getItem("x_ai_template") || ""
+  };
+}
+function saveAiConfig(cfg){
+  localStorage.setItem("x_ai_mode", cfg.mode);
+  localStorage.setItem("x_ai_endpoint", cfg.endpoint);
+  localStorage.setItem("x_ai_key", cfg.key);
+  localStorage.setItem("x_ai_template", cfg.template);
+}
+function renderCfgToUI(cfg){
+  document.querySelector("#aiMode").value = cfg.mode;
+  document.querySelector("#aiEndpoint").value = cfg.endpoint;
+  document.querySelector("#aiKey").value = cfg.key;
+  document.querySelector("#aiTemplate").value = cfg.template;
+}
+function uiCfg(){
+  return {
+    mode: document.querySelector("#aiMode").value,
+    endpoint: document.querySelector("#aiEndpoint").value.trim(),
+    key: document.querySelector("#aiKey").value.trim(),
+    template: document.querySelector("#aiTemplate").value.trim()
+  };
+}
+function applyTemplate(template, vars){
+  let s = template;
+  for(const [k,v] of Object.entries(vars)) s = s.replaceAll(`{{${k}}}`, v);
+  return s;
+}
+
+async function callAI(cfg, prompt, stateObj){
+  if(!cfg.endpoint) throw new Error("AI endpoint 为空");
+  const vars = {
+    prompt,
+    seed: stateObj.seed,
+    state: JSON.stringify(stateObj)
+  };
+
+  if(cfg.template){
+    const bodyStr = applyTemplate(cfg.template, vars);
+    const res = await fetch(cfg.endpoint, {
+      method:"POST",
+      headers: {
+        "Content-Type":"application/json",
+        ...(cfg.key ? {"Authorization":`Bearer ${cfg.key}`} : {})
+      },
+      body: bodyStr
+    });
+    const txt = await res.text();
+    return txt;
+  }
+
+  if(cfg.mode==="gemini"){
+    const url = cfg.endpoint.includes("key=") ? cfg.endpoint : (cfg.endpoint + (cfg.endpoint.includes("?")?"&":"?") + `key=${encodeURIComponent(cfg.key)}`);
+    const body = {
+      contents:[{parts:[{text:prompt}]}],
+      generationConfig:{temperature:0.9, maxOutputTokens:900}
+    };
+    const res = await fetch(url, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body) });
+    const j = await res.json();
+    const out = j?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("") ?? JSON.stringify(j);
+    return out;
+  }
+
+  // OpenAI compatible OR custom
+  const body = {
+    model: "gpt-4o-mini",
+    temperature: 0.9,
+    messages: [
+      {role:"system", content:"你必须只输出JSON，不要输出多余文字。"},
+      {role:"user", content: prompt}
+    ]
+  };
+  const res = await fetch(cfg.endpoint, {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      ...(cfg.key ? {"Authorization":`Bearer ${cfg.key}`} : {})
+    },
+    body: JSON.stringify(body)
+  });
+  const j = await res.json();
+  const out = j?.choices?.[0]?.message?.content ?? JSON.stringify(j);
+  return out;
+}
+
+function extractJSON(text){
+  try { return JSON.parse(text); } catch(_){}
+  const first = text.indexOf("{");
+  const last = text.lastIndexOf("}");
+  if(first>=0 && last>first){
+    const candidate = text.slice(first, last+1);
+    try { return JSON.parse(candidate); } catch(_){}
+  }
+  const m = text.match(/```json\s*([\s\S]*?)\s*```/i);
+  if(m){ try { return JSON.parse(m[1]); } catch(_){} }
+  throw new Error("AI返回无法解析为JSON");
+}
+
+/** ---------- Controller ---------- */
+class GameController{
+  constructor(m,v){
+    this.m=m; this.v=v;
+    this.currentOptions=[];
+    this.lastAction="";
+
+    document.querySelector("#btnSave").addEventListener("click", ()=>this.save());
+    document.querySelector("#btnLoad").addEventListener("click", ()=>this.load());
+    document.querySelector("#btnReset").addEventListener("click", ()=>{ this.m.reset(); this.lastAction=""; this.refresh(true); });
+
+    document.querySelector("#btnFree").addEventListener("click", async ()=>{
+      const txt=document.querySelector("#freeText").value.trim();
+      if(!txt) return;
+      document.querySelector("#freeText").value="";
+      await this.runTurn(`自定义：${txt}`, null, null, txt);
+    });
+
+    // ✅ 修复“选项不动”：只绑定一次，currentOptions统一来源
+    document.querySelector("#options").addEventListener("click", async (e)=>{
+      const opt=e.target.closest(".opt");
+      if(!opt) return;
+      const idx=Number(opt.dataset.idx);
+      const rect=opt.getBoundingClientRect();
+      await this.choose(idx, rect.left+rect.width*0.5, rect.top+8);
+    });
+
+    document.querySelector("#btnAiSave").addEventListener("click", ()=>{
+      const cfg=uiCfg();
+      saveAiConfig(cfg);
+      this.m._pushLog("AI配置", "已保存AI配置到本机。");
+      this.refresh(false);
+    });
+    document.querySelector("#btnAiTest").addEventListener("click", async ()=>this.testAI());
+
+    renderCfgToUI(loadAiConfig());
+    this.refresh(true);
+  }
+
+  save(){
+    localStorage.setItem("xianxia_world_save", JSON.stringify(this.m.toJSON()));
+    this.m._pushLog("存档","已保存到本地（localStorage）。");
+    this.m.addPill("已存档");
+    this.refresh(false);
+  }
+  load(){
+    const raw=localStorage.getItem("xianxia_world_save");
+    if(!raw){ this.m._pushLog("读取失败","本地没有存档。"); return this.refresh(false); }
+    try {
+      this.m.fromJSON(JSON.parse(raw));
+      this.m._pushLog("读档","已从本地读取存档。");
+      this.m.addPill("已读档");
+      this.refresh(true);
+    } catch(e) {
+      this.m._pushLog("读取失败","存档损坏或版本不兼容。");
+      this.refresh(false);
+    }
+  }
+
+  async testAI(){
+    const cfg=uiCfg();
+    const prompt='{"story":"测试成功","tags":{"phase":"SECT","place":"测试","npcTag":"测试NPC"},"options":[{"title":"继续","desc":"测试","effects":{"stats":{"luck":1}}}]}';
+    try {
+      const txt=await callAI(cfg, prompt, this.m.toJSON());
+      const obj=extractJSON(txt);
+      this.m._pushLog("AI测试","成功解析JSON，AI可用。");
+      this.m.addPill("AI可用");
+      await this.renderTurnFromResult(obj, true);
+    } catch(e) {
+      this.m._pushLog("AI测试失败", String(e.message || e));
+      this.m.addPill("AI不可用");
+      this.refresh(false);
+    }
+  }
+
+  applyEffects(effects, x, y){
+    if(!effects) return;
+    const float = (txt, kind)=> this.v.floatChange(x||window.innerWidth*0.5, y||120, txt, kind);
+
+    if(effects.stats){
+      for(const [k,delta] of Object.entries(effects.stats)){
+        if(typeof delta !== "number") continue;
+        if(typeof this.m.stats[k] === "number"){
+          this.m.stats[k] += delta;
+          if(["luck","insight","health","sense","rep","favor"].includes(k)) this.m.stats[k] = Math.max(0, Math.min(100, this.m.stats[k]));
+          if(["will","karma"].includes(k)) this.m.stats[k] = Math.max(-100, Math.min(100, this.m.stats[k]));
+          float(`${k} ${delta>0?"+":""}${delta}`, delta>=0?"good":"bad");
+        }
+      }
+    }
+
+    if(effects.relations){
+      for(const [id,deltaObj] of Object.entries(effects.relations)){
+        const n=this.m.npcs[id];
+        if(!n) continue;
+        for(const [rk,rv] of Object.entries(deltaObj||{})){
+          if(typeof rv !== "number") continue;
+          if(rk in n){
+            n[rk]+=rv;
+            if(["favor","trust","ambition","corruption"].includes(rk)) n[rk]=Math.max(0,Math.min(100,n[rk]));
+          }
+        }
+      }
+    }
+
+    if(effects.sect){
+      if(typeof effects.sect.stability==="number") this.m.sectGov.stability = Math.max(0,Math.min(100,this.m.sectGov.stability + effects.sect.stability));
+      if(typeof effects.sect.treasury==="number") this.m.sectGov.treasury = Math.max(0,Math.min(999,this.m.sectGov.treasury + effects.sect.treasury));
+      if(effects.sect.elderInfluence){
+        for(const [eid,dd] of Object.entries(effects.sect.elderInfluence)){
+          if(typeof dd!=="number") continue;
+          this.m.sectGov.elderInfluence[eid] = Math.max(0,Math.min(100,(this.m.sectGov.elderInfluence[eid]||0)+dd));
+        }
+      }
+    }
+
+    if(effects.family){
+      if(typeof effects.family.prestige==="number") this.m.family.prestige = Math.max(0,Math.min(100,this.m.family.prestige + effects.family.prestige));
+      if(typeof effects.family.wealth==="number") this.m.family.wealth = Math.max(0,Math.min(100,this.m.family.wealth + effects.family.wealth));
+      if(typeof effects.family.power==="number") this.m.family.power = Math.max(0,Math.min(100,this.m.family.power + effects.family.power));
+    }
+
+    if(effects.world){
+      if(typeof effects.world.imperialStability==="number") this.m.world.imperialStability = Math.max(0,Math.min(100,this.m.world.imperialStability + effects.world.imperialStability));
+      if(typeof effects.world.demonPressure==="number") this.m.world.demonPressure = Math.max(0,Math.min(100,this.m.world.demonPressure + effects.world.demonPressure));
+      if(typeof effects.world.publicFear==="number") this.m.world.publicFear = Math.max(0,Math.min(100,this.m.world.publicFear + effects.world.publicFear));
+    }
+  }
+
+  checkBetrayals(){
+    const rng=this.m.rng;
+    for(const npc of Object.values(this.m.npcs)){
+      if(npc.flags.includes("betrayed")) continue;
+      const danger = (npc.trust<30) && (npc.ambition>70 || npc.corruption>80);
+      if(!danger) continue;
+      const p = 0.12 + (70-npc.trust)/200 + (npc.ambition)/500;
+      if(rng() < Math.min(0.35, p)){
+        npc.flags.push("betrayed");
+        this.m._pushLog("背叛", `${npc.name}露出另一张脸：他/她在暗处推动一桩针对你的局。`);
+        this.m.addPill(`背叛：${npc.name}`);
+        this.m.world.publicFear = Math.min(100, this.m.world.publicFear + 4);
+        this.m.stats.karma = Math.max(-100, Math.min(100, this.m.stats.karma + 3));
+      }
+    }
+  }
+
+  applyTimelineEvents(){
+    const events = this.m.dueTimelineEvents();
+    for(const ev of events){
+      this.m._pushLog("年表事件", `【${this.m.formatDate()}】${ev.title}：${ev.desc}`);
+      this.m.addPill(ev.title);
+      if(ev.type==="politics") this.m.world.imperialStability = Math.max(0, this.m.world.imperialStability - 2);
+      if(ev.type==="demon") this.m.world.demonPressure = Math.min(100, this.m.world.demonPressure + 3);
+      if(ev.type==="sect") this.m.sectGov.stability = Math.max(0, this.m.sectGov.stability - 1);
+      if(ev.type==="war") { this.m.world.demonPressure = Math.min(100,this.m.world.demonPressure+6); this.m.world.imperialStability=Math.max(0,this.m.world.imperialStability-4); }
+    }
+  }
+
+  maybeLocalTurn(lastAction){
+    const rng=this.m.rng;
+    const romanceNpc = pick(rng, [this.m.npcs["n_peer1"], this.m.npcs["n_peer2"]]);
+    const villain = pick(rng, [this.m.npcs["v_neigui"], this.m.npcs["v_shijia"], this.m.npcs["v_mozun"]]);
+
+    const beats=[];
+    beats.push(pick(rng, WORLD.localPrompts.openers));
+    if(rng()<0.55) beats.push(pick(rng, WORLD.localPrompts.politics));
+    if(rng()<0.55) beats.push(pick(rng, WORLD.localPrompts.romance));
+    beats.push("");
+    beats.push(`你想到上一步：${lastAction || "无"}`);
+    beats.push(`你隐约感觉：${this.m.worldline.mainThreat}。`);
+    beats.push("");
+    beats.push(`【人物】${romanceNpc.name}望向你，像在等你给一个信号；而${villain.name}的影子，却像从灯火背面投来。`);
+
+    const story = beats.join("\n");
+
+    const options = [
+      {
+        title:"公开示好：把关系摆到台面",
+        desc:`对${romanceNpc.name}更进一步，但会被人盯上。`,
+        effects: {
+          relations: { [romanceNpc.id]: {favor:+8, trust:+5}, [villain.id]: {ambition:+2} },
+          stats: {rep:+2, karma:+1},
+          sect: {stability:-1}
+        }
+      },
+      {
+        title:"暗中结盟：与人谈筹码",
+        desc:"拉拢朝廷/仙盟/世家的一方，换资源与保护。",
+        effects: {
+          stats: {stash:+6, favor:+3, karma:+2},
+          world: {imperialStability:-1},
+          family: {prestige:+3, wealth:+2}
+        }
+      },
+      {
+        title:"先下手为强：查内鬼/掀桌",
+        desc:"高风险。可能直接撞上反派线。",
+        effects: {
+          stats: {will:+2, rep:+1, health:-3},
+          relations: { [villain.id]: {trust:-8, corruption:+3} },
+          world: {publicFear:+4}
+        }
+      },
+      {
+        title:"稳住宗门：处理宗务与人心",
+        desc:"提升宗门稳定，顺便刷长老影响。",
+        effects: {
+          sect: {stability:+4, treasury:+2, elderInfluence:{n_elder1:+2}},
+          stats: {cp:+4}
+        }
+      }
+    ];
+
+    return {
+      story,
+      tags: { phase: (this.m.phase==="START" ? "SECT" : this.m.phase), place: WORLD.phases[this.m.phase]?.place || "修真界", npcTag: `NPC：${romanceNpc.name} / ${villain.name}` },
+      options
+    };
+  }
+
+  async runTurn(actionTitle, effects, x, y, rawActionText){
+    if(effects) this.applyEffects(effects, x, y);
+
+    this.m.advanceDay();
+    this.m.round += 1;
+
+    this.applyTimelineEvents();
+    this.checkBetrayals();
+
+    if(this.m.world.demonPressure > 60 && this.m.rng() < 0.25){
+      this.m._pushLog("边境来信","北境传来急报：魔潮压力上升，宗门被要求支援。");
+      this.m.world.imperialStability = Math.max(0, this.m.world.imperialStability - 1);
+      this.m.stats.karma = Math.max(-100, Math.min(100, this.m.stats.karma + 1));
+    }
+
+    this.lastAction = rawActionText || actionTitle || "行动";
+
+    const cfg = uiCfg();
+    let result=null;
+
+    if(cfg.mode !== "off"){
+      try {
+        const prompt = buildOptimizedPrompt(this.m.toJSON(), this.lastAction);
+        const txt = await callAI(cfg, prompt, this.m.toJSON());
+        const obj = extractJSON(txt);
+        result = obj;
+
+        if(Array.isArray(obj.timeline_add)){
+          for(const ev of obj.timeline_add){
+            if(!ev || typeof ev.y!=="number") continue;
+            this.m.timeline.push({
+              y: ev.y, m: ev.m||1, d: ev.d||1,
+              title: String(ev.title||"新事件"),
+              desc: String(ev.desc||""),
+              type: "dynamic"
+            });
+          }
+          this.m.addPill("新增年表");
+        }
+      } catch(e) {
+        this.m._pushLog("AI回合失败", `已回退本地引擎：${String(e.message||e)}`);
+        result = this.maybeLocalTurn(this.lastAction);
+      }
+    } else {
+      result = this.maybeLocalTurn(this.lastAction);
+    }
+
+    this.m._pushLog("回合推进", `你选择：${this.lastAction}`);
+    await this.renderTurnFromResult(result, true);
+  }
+
+  async renderTurnFromResult(result, retype){
+    if(result?.tags?.phase && WORLD.phases[result.tags.phase]) this.m.phase = result.tags.phase;
+    else if(this.m.phase==="START") this.m.phase="SECT";
+
+    const story = String(result.story || "（本回合无内容）");
+    const options = Array.isArray(result.options) ? result.options.slice(0,5) : [];
+    this.currentOptions = options;
+
+    this.v.setTopTags(this.m);
+    this.v.renderStats(this.m);
+    this.v.renderLog(this.m);
+    this.v.renderOptions(options.map(o=>({title:o.title||"（无标题）",desc:o.desc||"",key:false})), "请选择行动");
+    this.v.setNpcTag(result?.tags?.npcTag || "NPC：未登场");
+
+    if(retype) await this.v.typeStory(story);
+    else this.v.$story.textContent = story;
+  }
+
+  async choose(idx, x, y){
+    const opt = this.currentOptions[idx];
+    if(!opt) return;
+    const eff = opt.effects || null;
+    const actionText = opt.title || `选项${idx+1}`;
+    await this.runTurn(actionText, eff, x, y, actionText);
+  }
+
+  async refresh(retype){
+    if(!this.m.linggen.element){
+      remembered_init(this.m);
+    }
+
+    const starter = {
+      story: [
+        pick(this.m.rng, WORLD.localPrompts.openers),
+        "",
+        "你踏入宗门棋局，所有人的笑都带着算计。",
+        `【世界线】${this.m.worldline.mainThreat}`,
+        "",
+        "这一回合开始：世界时间会自动推进，恋爱与背叛会同时发芽。"
+      ].join("\n"),
+      tags: {
+        phase: "SECT",
+        place: WORLD.phases.SECT.place,
+        npcTag: "NPC：掌门·顾玄霄 / 执法长老·沈无咎"
+      },
+      options: [
+        { title:"先稳宗门：处理宗务与考核", desc:"提升宗门稳定，获得资源与信任。", effects: { sect: {stability:+4, treasury:+2}, stats: {cp:+4, rep:+1} } },
+        { title:"去见同门天骄：试探暧昧与同盟", desc:"推进恋爱线/盟友线，但会被人关注。", effects: { relations: { n_peer1: {favor:+6, trust:+3}, n_peer2: {favor:+4} }, stats: {karma:+1} } },
+        { title:"暗查：仙盟来信与内鬼传闻", desc:"推进政治斗争与反派线。", effects: { relations: { v_neigui: {trust:-3, ambition:+2} }, stats: {insight:+2, karma:+2}, world: {publicFear:+2} } },
+        { title:"养精蓄锐：闭关一日", desc:"稳住身体与心性，降低被算计的概率。", effects: { stats: {health:+3, will:+2, sense:+2} } }
+      ]
+    };
+
+    await this.renderTurnFromResult(starter, retype);
+  }
+}
+
+function remembered_init(m){
+  const rng=m.rng;
+  const grades=WORLD.linggen.grades;
+  const weights=WORLD.linggen.gradeWeights;
+  let total=weights.reduce((a,b)=>a+b,0);
+  let r=rng()*total;
+  let grade=grades[0];
+  for(let i=0;i<grades.length;i++){ r-=weights[i]; if(r<=0){ grade=grades[i]; break; } }
+  m.linggen.element = pick(rng, WORLD.linggen.elements);
+  m.linggen.variant = (rng()<0.18) ? pick(rng, WORLD.linggen.variants) : null;
+  m.linggen.grade = grade;
+  m.linggen.purity = randInt(rng, 55, 92);
+
+  m.sect = { id:"tianjian", name:"天剑宗", style:"剑修清冷、一致性强" };
+  m._pushLog("测灵根", `你测得：${m.linggen.grade}·${m.linggen.element}${m.linggen.variant?("·变异("+m.linggen.variant+")"):""}·纯度${m.linggen.purity}%。`);
+  m.addPill("灵根已定");
+}
+
+// boot
+const model = new GameModel();
+const view  = new GameView();
+const ctrl  = new GameController(model, view);
+</script>
+
+</body>
+</html>
