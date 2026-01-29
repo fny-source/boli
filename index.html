@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>巫氏修仙世界·沉浸式剧情版V7</title>
+<style>
+body{margin:0;background:linear-gradient(#040715,#111b44);color:#eee;font-family:system-ui}
+header{background:#1b2560;padding:16px;text-align:center;font-size:22px;font-weight:900}
+.container{max-width:1200px;margin:auto;padding:14px}
+.panel{background:#1f2b6a;border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:0 0 14px #000}
+button{background:#9ab8ff;border:none;border-radius:14px;padding:10px 18px;font-weight:800;color:#000}
+.option{background:#121b52;border:1px solid #444;border-radius:14px;padding:14px;margin:8px 0;cursor:pointer}
+.option:hover{background:#2a3790}
+.hidden{display:none}
+.npc{background:#0e153a;border-radius:12px;padding:10px;margin:8px 0}
+.bar{height:6px;background:#555;border-radius:6px;overflow:hidden}
+.fill{height:6px;background:#9ab8ff}
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cell{background:#0f173e;border-radius:14px;padding:16px;text-align:center}
+</style>
+</head>
+<body>
+
+<header>🌌 巫氏修仙世界 · 沉浸式剧情模拟 V7</header>
+
+<div class="container">
+
+<div class="panel" id="intro">
+<h3>📖 世界背景</h3>
+<p>
+在浩瀚无垠的修真界，灵气潮汐不断起伏。宗门与世家在盛衰轮回中更替兴亡。  
+凡人如尘埃般生存，而修士掌控命运。  
+巫氏家族原本只是凡俗小族，却因代代族长“巫真”拥有惊人气运，逐渐踏入修真舞台。
+</p>
+<button onclick="showHero()">进入主角故事</button>
+</div>
+
+<div class="panel hidden" id="heroIntro">
+<h3>👤 主角背景</h3>
+<p>
+你是新一代族长巫真，自幼目睹家族在灵气衰退时代挣扎求生。  
+宗门压迫、世家倾轧、魔道暗涌，所有力量都在窥视巫氏的崛起。  
+你将决定家族的命运。
+</p>
+<button onclick="startGame('男')">男族长</button>
+<button onclick="startGame('女')">女族长</button>
+</div>
+
+<div id="game" class="hidden">
+
+<div class="panel">
+📆 <span id="time"></span> ｜ 🧬 <span id="root"></span> ｜ 👤 <span id="gender"></span>
+</div>
+
+<div class="panel" id="story"></div>
+<div class="panel" id="options"></div>
+
+<div class="panel">
+<h3>🗺 地区地图</h3>
+<div class="map">
+<div class="cell">巫氏领地</div>
+<div class="cell">天剑宗</div>
+<div class="cell">丹鼎门</div>
+<div class="cell">幽魂殿</div>
+<div class="cell">万妖谷</div>
+<div class="cell">凡人王朝</div>
+<div class="cell">散修集市</div>
+<div class="cell">上古遗迹</div>
+</div>
+</div>
+
+<div class="panel">
+<h3>👥 人物关系</h3>
+<div id="npcBox"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let year=1,month=1,day=1;
+let gender=null;
+let root=null;
+
+const roots=[
+ {n:"凡灵根",r:40},{n:"地灵根",r:25},{n:"天灵根",r:15},{n:"圣灵根",r:12},{n:"混沌灵根",r:8}
+];
+
+const npcs={
+ "剑无尘":{favor:45,desc:"天剑宗首席天骄，正道希望"},
+ "柳如烟":{favor:55,desc:"丹鼎门圣女，炼丹奇才"},
+ "魅影":{favor:25,desc:"幽魂殿妖女，危险莫测"},
+ "萧逸风":{favor:35,desc:"散修盟主，自由不羁"},
+ "慕容雪":{favor:40,desc:"隐世家族传人"},
+ "龙傲天":{favor:30,desc:"妖族圣子"},
+ "玲珑":{favor:50,desc:"上古器灵"}
+};
+
+function rollRoot(){
+ let r=Math.random()*100,s=0;
+ for(let g of roots){s+=g.r;if(r<=s)return g.n;}
+}
+
+function updateTime(){
+ document.getElementById("time").innerText=`第${year}年${month}月${day}日`;
+}
+
+function advance(){
+ day++;if(day>30){day=1;month++;}
+ if(month>12){month=1;year++;}
+ updateTime();
+ npcAuto();
+}
+
+function npcAuto(){
+ for(let n in npcs){
+  npcs[n].favor+=Math.floor(Math.random()*3-1);
+ }
+ renderNPC();
+}
+
+function renderNPC(){
+ const box=document.getElementById("npcBox");
+ box.innerHTML="";
+ for(let n in npcs){
+  const v=npcs[n];
+  box.innerHTML+=`
+  <div class="npc">
+   ❤️ <b>${n}</b> (${v.desc}) 好感:${v.favor}
+   <div class="bar"><div class="fill" style="width:${v.favor}%"></div></div>
+  </div>`;
+ }
+}
+
+function showStory(text){
+ document.getElementById("story").innerText=text;
+ const o=document.getElementById("options");
+ o.innerHTML="";
+ ["修炼","内政","外交","探险","培养后辈","观察局势"].forEach(t=>{
+  const d=document.createElement("div");
+  d.className="option";
+  d.innerText=t;
+  d.onclick=()=>nextTurn();
+  o.appendChild(d);
+ });
+}
+
+function nextTurn(){
+ advance();
+ const pool=[
+ "灵气潮汐继续衰退，资源愈发紧张，各方势力蠢蠢欲动。",
+ "天剑宗内部权力斗争浮出水面，或将波及巫氏。",
+ "幽魂殿暗中扩张，修真界风雨欲来。",
+ "凡人王朝希望巫氏庇护，带来庞大资源。",
+ "上古遗迹再度开启，引发各方争夺。"
+ ];
+ showStory(pool[Math.floor(Math.random()*pool.length)]);
+}
+
+function showHero(){
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("heroIntro").classList.remove("hidden");
+}
+
+function startGame(g){
+ gender=g;
+ root=rollRoot();
+ document.getElementById("gender").innerText=g+"族长";
+ document.getElementById("root").innerText="灵根："+root;
+ document.getElementById("heroIntro").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ updateTime();
+ renderNPC();
+ showStory("测灵完成，你正式踏入修真界的棋局之中……");
+}
+</script>
+
+</body>
+</html>
